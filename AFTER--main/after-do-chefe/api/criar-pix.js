@@ -1,5 +1,9 @@
 ﻿// api/criar-pix.js
 // Vercel Serverless Function
+import { kv } from '@vercel/kv';
+
+const TOTAL_VAGAS = { 1: 100, 2: 100, 3: 100 };
+const LOTE_NOMES  = { '1º Lote': 1, '2º Lote': 2, '3º Lote': 3 };
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -16,6 +20,26 @@ export default async function handler(req, res) {
 
   if (!valor || !nome || !email || !cpf) {
     return res.status(400).json({ error: 'Dados incompletos' });
+  }
+
+  // ── Verifica vagas disponíveis ──
+  try {
+    const loteNum = LOTE_NOMES[lote];
+    if (loteNum) {
+      const qtd = parseInt(quantidade) || 1;
+      const vagasKey = `vagas:${loteNum}`;
+      const vagasAtual = await kv.get(vagasKey);
+      const vagas = vagasAtual === null ? TOTAL_VAGAS[loteNum] : parseInt(vagasAtual);
+
+      if (vagas <= 0) {
+        return res.status(400).json({ error: `${lote} esgotado! Escolha outro lote.` });
+      }
+      if (qtd > vagas) {
+        return res.status(400).json({ error: `Só restam ${vagas} vaga(s) no ${lote}.` });
+      }
+    }
+  } catch (kvErr) {
+    console.warn('KV check falhou, prosseguindo:', kvErr.message);
   }
 
   // Garante que valor é número (float)

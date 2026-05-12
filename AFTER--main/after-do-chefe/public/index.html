@@ -635,15 +635,55 @@ window.addEventListener('DOMContentLoaded', function() {
 })();
 
 (function(){
-  var max=100;
-  [1,2,3].forEach(function(i){
-    var bar=document.getElementById('bar-'+i);
-    var txt=document.getElementById('vagas-'+i);
-    var sold=Math.floor(Math.random()*18)+3;
-    var pct=((max-sold)/max*100).toFixed(0);
-    if(bar)setTimeout(function(){bar.style.width=pct+'%';if(pct<=30)bar.style.background='linear-gradient(90deg,#ff6b6b,#ff9f43)';},500);
-    if(txt)txt.textContent=(max-sold)+' vagas restantes';
-  });
+  fetch('/api/vagas')
+    .then(function(r){return r.json();})
+    .then(function(data){
+      var vagas = data.vagas || {};
+      var total = 100;
+      [1,2,3].forEach(function(i){
+        var v = vagas[i] !== undefined ? parseInt(vagas[i]) : total;
+        var bar = document.getElementById('bar-'+i);
+        var txt = document.getElementById('vagas-'+i);
+        var row = document.getElementById('lote-'+i);
+        var pct = (v/total*100).toFixed(0);
+
+        if(txt) txt.textContent = v > 0 ? v+' vagas restantes' : 'ESGOTADO';
+        if(bar){
+          setTimeout(function(){
+            bar.style.width = pct+'%';
+            if(pct <= 30) bar.style.background = 'linear-gradient(90deg,#ff6b6b,#ff9f43)';
+            if(v === 0) bar.style.background = '#333';
+          }, 400);
+        }
+
+        // Fecha o lote esgotado
+        if(v === 0 && row){
+          row.style.opacity = '.4';
+          row.style.pointerEvents = 'none';
+          row.style.cursor = 'not-allowed';
+          var badge = row.querySelector('.badge-ok');
+          if(badge){
+            badge.textContent = 'ESGOTADO';
+            badge.className = 'badge';
+            badge.style.background = 'rgba(255,69,69,.12)';
+            badge.style.color = '#FF4545';
+            badge.style.border = '1px solid rgba(255,69,69,.35)';
+          }
+          // Se era o lote selecionado, seleciona o próximo disponível
+          if(row.classList.contains('selected')){
+            for(var j=1;j<=3;j++){
+              if(j!==i && vagas[j]>0){
+                selecionarLote(j);
+                break;
+              }
+            }
+          }
+        }
+      });
+    })
+    .catch(function(){
+      // Fallback silencioso — não quebra o site
+    });
 })();
 
 var _nomes=['Ana C.','Pedro M.','Lucas S.','Juliana R.','Marcos T.','Fernanda L.','Gabriel O.','Beatriz N.','Rafael A.','Camila F.'];

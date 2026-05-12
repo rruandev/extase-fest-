@@ -1,4 +1,9 @@
 ﻿// api/webhook-pix.js
+import { kv } from '@vercel/kv';
+
+const TOTAL_VAGAS = { 1: 100, 2: 100, 3: 100 };
+const LOTE_NOMES  = { '1º Lote': 1, '2º Lote': 2, '3º Lote': 3 };
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
@@ -34,6 +39,22 @@ export default async function handler(req, res) {
     }
 
     const { comprador_nome, comprador_email, lote, quantidade } = payment.metadata || {};
+
+    // ── Decrementa vagas no KV ──
+    try {
+      const loteNum = LOTE_NOMES[lote];
+      if (loteNum) {
+        const qtd = parseInt(quantidade) || 1;
+        const vagasKey = `vagas:${loteNum}`;
+        const vagasAtual = await kv.get(vagasKey);
+        const vagasAtuais = vagasAtual === null ? TOTAL_VAGAS[loteNum] : parseInt(vagasAtual);
+        const novasVagas = Math.max(0, vagasAtuais - qtd);
+        await kv.set(vagasKey, novasVagas);
+        console.log(`Vagas ${lote}: ${vagasAtuais} → ${novasVagas}`);
+      }
+    } catch (kvErr) {
+      console.warn('KV decrement falhou:', kvErr.message);
+    }
 
     if (!comprador_email) {
       console.error('Metadata incompleta:', JSON.stringify(payment.metadata));
