@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Êxtase Fest — Verificador</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: #0A0010;
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    body::before {
+      content:'';position:fixed;inset:0;
+      background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(168,85,247,.12),transparent 70%);
+      pointer-events:none;
+    }
+
+    /* ── LOGIN ── */
+    #tela-login {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      padding: 36px 32px;
+      background: #10081A;
+      border: 1px solid rgba(168,85,247,.25);
+      border-radius: 20px;
+      width: 320px;
+      box-shadow: 0 0 60px rgba(168,85,247,.1);
+      position: relative;
+      z-index: 1;
+    }
+
+    .login-logo { font-family:'Bricolage Grotesque',sans-serif; font-size: 1.8rem; font-weight:800; background:linear-gradient(135deg,#fff,#C084FC,#A855F7); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+    .login-sub { font-size: .8rem; color: rgba(168,85,247,.6); letter-spacing:.1em; text-transform:uppercase; margin-top:-8px; }
+
+    #tela-login input {
+      width: 100%;
+      padding: 12px 16px;
+      border-radius: 12px;
+      border: 1px solid rgba(168,85,247,.25);
+      background: rgba(168,85,247,.06);
+      color: #fff;
+      font-size: 1rem;
+      font-family: 'DM Sans', sans-serif;
+      outline: none;
+      transition: border-color .2s;
+    }
+    #tela-login input:focus { border-color: #A855F7; background: rgba(168,85,247,.1); }
+    #tela-login input::placeholder { color: rgba(255,255,255,.2); }
+
+    #tela-login button {
+      width: 100%;
+      padding: 13px;
+      border-radius: 12px;
+      border: none;
+      background: linear-gradient(135deg,#A855F7,#6D28D9);
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      box-shadow: 0 4px 20px rgba(168,85,247,.4);
+      transition: transform .15s;
+    }
+    #tela-login button:hover { transform: translateY(-1px); }
+
+    #login-erro { display: none; color: #ff6b6b; font-size: .85rem; }
+
+    /* ── SCANNER ── */
+    #tela-scanner {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      max-width: 480px;
+      padding: 20px 16px;
+      gap: 14px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .scanner-header { display:flex; align-items:center; justify-content:space-between; width:100%; }
+    .scanner-title { font-family:'Bricolage Grotesque',sans-serif; font-size:1.3rem; font-weight:800; background:linear-gradient(135deg,#fff,#A855F7); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+
+    #contador {
+      font-size: .85rem;
+      font-weight: 700;
+      background: rgba(168,85,247,.12);
+      border: 1px solid rgba(168,85,247,.25);
+      padding: 6px 16px;
+      border-radius: 20px;
+      color: rgba(192,132,252,.9);
+    }
+
+    .video-wrap {
+      position: relative;
+      width: 100%;
+      border-radius: 16px;
+      overflow: hidden;
+      background: #000;
+      border: 1px solid rgba(168,85,247,.2);
+    }
+
+    #video { width: 100%; display: block; border-radius: 16px; }
+
+    .scan-overlay {
+      position: absolute;inset: 0;
+      display: flex;align-items: center;justify-content: center;
+      pointer-events: none;
+    }
+
+    .scan-box {
+      width: 65%;aspect-ratio: 1;
+      border: 3px solid #A855F7;
+      border-radius: 12px;
+      box-shadow: 0 0 0 9999px rgba(0,0,0,0.5), 0 0 20px rgba(168,85,247,.4);
+    }
+
+    canvas { display: none; }
+
+    /* ── RESULTADO ── */
+    #resultado-atual { width: 100%; }
+
+    .resultado-card {
+      border-radius: 14px;
+      padding: 20px;
+      text-align: center;
+      margin-bottom: 12px;
+    }
+
+    .resultado-card.valido  { background: rgba(46,210,100,.08); border: 2px solid #2ED264; }
+    .resultado-card.usado   { background: rgba(255,179,0,.08);  border: 2px solid #FFB300; }
+    .resultado-card.invalido{ background: rgba(255,69,69,.08);  border: 2px solid #FF4545; }
+
+    .resultado-status { font-size: 1.3rem; font-weight: 700; margin-bottom: 6px; }
+    .resultado-nome   { font-size: 1.1rem; margin-bottom: 4px; }
+    .resultado-codigo { font-size: .8rem; color: rgba(255,255,255,.4); }
+
+    .btn-novo {
+      width: 100%;padding: 14px;border-radius: 12px;border: none;
+      background: linear-gradient(135deg,#A855F7,#6D28D9);
+      color: #fff;font-size: 1rem;font-weight: 700;cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      box-shadow: 0 4px 20px rgba(168,85,247,.35);
+      transition: transform .15s;
+    }
+    .btn-novo:hover { transform: translateY(-1px); }
+
+    /* ── HISTÓRICO ── */
+    #historico-wrap { display: none; width: 100%; }
+
+    #historico-wrap h3 {
+      font-size: .8rem;font-weight: 700;
+      color: rgba(168,85,247,.5);
+      margin-bottom: 10px;
+      text-transform: uppercase;letter-spacing: .1em;
+    }
+
+    .historico-item {
+      display: flex;justify-content: space-between;align-items: center;
+      background: rgba(168,85,247,.05);
+      border: 1px solid rgba(168,85,247,.12);
+      border-radius: 10px;padding: 10px 14px;margin-bottom: 6px;
+    }
+
+    .hist-nome   { font-size: .95rem; font-weight: 600; }
+    .hist-codigo { font-size: .75rem; color: rgba(255,255,255,.3); }
+
+    .hist-badge {
+      font-size: .75rem;padding: 4px 10px;
+      border-radius: 20px;font-weight: 700;white-space: nowrap;
+    }
+
+    .hist-badge.ok   { background: rgba(46,210,100,.12); color: #2ED264; border:1px solid rgba(46,210,100,.3); }
+    .hist-badge.warn { background: rgba(255,179,0,.12);  color: #FFB300; border:1px solid rgba(255,179,0,.3); }
+    .hist-badge.fail { background: rgba(255,69,69,.12);  color: #FF4545; border:1px solid rgba(255,69,69,.3); }
+  </style>
+</head>
+<body>
+
+  <!-- TELA DE LOGIN -->
+  <div id="tela-login">
+    <div class="login-logo">ÊXTASE FEST</div>
+    <div class="login-sub">Verificador de Ingressos</div>
+    <input id="inp-senha" type="password" placeholder="🔒 Senha do evento"
+           onkeydown="if(event.key==='Enter') entrar()" />
+    <button onclick="entrar()">🎟 Entrar</button>
+    <span id="login-erro">❌ Senha incorreta.</span>
+  </div>
+
+  <!-- TELA DO SCANNER -->
+  <div id="tela-scanner">
+    <div class="scanner-header">
+      <div class="scanner-title">🎟 Scanner</div>
+      <span id="contador">0 verificados</span>
+    </div>
+
+    <div class="video-wrap">
+      <video id="video" playsinline muted></video>
+      <div class="scan-overlay"><div class="scan-box"></div></div>
+    </div>
+
+    <canvas id="canvas"></canvas>
+
+    <div id="resultado-atual"></div>
+
+    <div id="historico-wrap">
+      <h3>Últimos verificados</h3>
+      <div id="historico-lista"></div>
+    </div>
+  </div>
+
+  <script>
+    let senha = '';
+    let totalVerificados = 0;
+    let historico = JSON.parse(localStorage.getItem('historico') || '[]');
+    let scanAtivo = true;
+    let detector = null;
+    let rafId = null;
+
+    // Restaura contador ao carregar
+    totalVerificados = historico.filter(h => h.tipo === 'valido').length;
+
+    async function entrar() {
+      const s = document.getElementById('inp-senha').value.trim();
+      if (!s) return;
+
+      const res = await fetch('/api/verificar-ingresso', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ codigo: 'TEST', senha: s })
+      });
+
+      if (res.status === 401) {
+        document.getElementById('login-erro').style.display = 'block';
+        return;
+      }
+
+      senha = s;
+      document.getElementById('tela-login').style.display = 'none';
+      document.getElementById('tela-scanner').style.display = 'flex';
+      document.getElementById('contador').textContent =
+        totalVerificados + ' verificado' + (totalVerificados !== 1 ? 's' : '');
+      atualizarHistorico();
+      iniciarCamera();
+    }
+
+    async function iniciarCamera() {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({
+          video: { facingMode: { ideal: 'environment' }, width: { ideal: 1920 }, height: { ideal: 1080 } }
+        });
+        const video = document.getElementById('video');
+        video.srcObject = stream;
+        await video.play();
+
+        if ('BarcodeDetector' in window) {
+          detector = new BarcodeDetector({ formats: ['qr_code'] });
+          rafId = requestAnimationFrame(scanComDetector);
+        } else {
+          await carregarJsQR();
+          rafId = requestAnimationFrame(scanComJsQR);
+        }
+      } catch (e) {
+        alert('Erro ao acessar a câmera: ' + e.message);
+      }
+    }
+
+    async function scanComDetector() {
+      if (!scanAtivo) { rafId = requestAnimationFrame(scanComDetector); return; }
+      const video = document.getElementById('video');
+      if (video.readyState >= 2) {
+        try {
+          const codes = await detector.detect(video);
+          if (codes.length > 0) {
+            scanAtivo = false;
+            await verificar(codes[0].rawValue);
+          }
+        } catch (e) {}
+      }
+      rafId = requestAnimationFrame(scanComDetector);
+    }
+
+    function carregarJsQR() {
+      return new Promise((resolve) => {
+        const s = document.createElement('script');
+        s.src = 'https://cdnjs.cloudflare.com/ajax/libs/jsQR/1.4.0/jsQR.min.js';
+        s.onload = resolve;
+        document.head.appendChild(s);
+      });
+    }
+
+    function scanComJsQR() {
+      if (!scanAtivo) { rafId = requestAnimationFrame(scanComJsQR); return; }
+      const video = document.getElementById('video');
+      const canvas = document.getElementById('canvas');
+      if (video.readyState >= 2 && video.videoWidth > 0) {
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        const ctx = canvas.getContext('2d', { willReadFrequently: true });
+        ctx.drawImage(video, 0, 0);
+        const size = Math.min(canvas.width, canvas.height) * 0.7;
+        const x = (canvas.width - size) / 2;
+        const y = (canvas.height - size) / 2;
+        const imageData = ctx.getImageData(x, y, size, size);
+        const code = jsQR(imageData.data, imageData.width, imageData.height, {
+          inversionAttempts: 'dontInvert'
+        });
+        if (code && code.data) {
+          scanAtivo = false;
+          verificar(code.data);
+          return;
+        }
+      }
+      rafId = requestAnimationFrame(scanComJsQR);
+    }
+
+    async function verificar(qrData) {
+      try {
+        const res = await fetch('/api/verificar-ingresso', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ codigo: qrData, senha })
+        });
+        const data = await res.json();
+        mostrarResultado(data, qrData);
+      } catch (e) {
+        mostrarResultado({ valido: false, erro: 'Erro de conexão.' }, qrData);
+      }
+    }
+
+    function mostrarResultado(data, qrRaw) {
+      const wrap = document.getElementById('resultado-atual');
+      let tipo, icone, titulo, subtitulo, codigo;
+
+      if (data.valido) {
+        tipo = 'valido'; icone = '✅'; titulo = 'INGRESSO VÁLIDO';
+        subtitulo = data.nome; codigo = data.codigo;
+        totalVerificados++;
+        document.getElementById('contador').textContent =
+          totalVerificados + ' verificado' + (totalVerificados !== 1 ? 's' : '');
+        vibrar([100, 50, 100]);
+      } else if (data.erro && data.erro.includes('já utilizado')) {
+        tipo = 'usado'; icone = '⚠️'; titulo = 'JÁ UTILIZADO';
+        subtitulo = data.nome || '—'; codigo = data.codigo || qrRaw.split('|')[0];
+        vibrar([200, 100, 200, 100, 200]);
+      } else {
+        tipo = 'invalido'; icone = '❌'; titulo = 'INVÁLIDO';
+        subtitulo = data.erro || 'QR Code não reconhecido';
+        codigo = qrRaw.split('|')[0] || qrRaw;
+        vibrar([300]);
+      }
+
+      wrap.innerHTML = `
+        <div class="resultado-card ${tipo}">
+          <div class="resultado-status">${icone} ${titulo}</div>
+          <div class="resultado-nome">${subtitulo}</div>
+          <div class="resultado-codigo">${codigo}</div>
+        </div>
+        <button class="btn-novo" onclick="proximoScan()">Escanear próximo →</button>
+      `;
+
+      historico.unshift({ tipo, nome: subtitulo, codigo });
+      localStorage.setItem('historico', JSON.stringify(historico));
+      atualizarHistorico();
+    }
+
+    function proximoScan() {
+      document.getElementById('resultado-atual').innerHTML = '';
+      scanAtivo = true;
+    }
+
+    function atualizarHistorico() {
+      if (!historico.length) return;
+      document.getElementById('historico-wrap').style.display = 'block';
+      document.getElementById('historico-lista').innerHTML = historico.slice(0, 10).map(h => `
+        <div class="historico-item">
+          <div>
+            <div class="hist-nome">${h.nome}</div>
+            <div class="hist-codigo">${h.codigo}</div>
+          </div>
+          <span class="hist-badge ${h.tipo === 'valido' ? 'ok' : h.tipo === 'usado' ? 'warn' : 'fail'}">
+            ${h.tipo === 'valido' ? '✓ OK' : h.tipo === 'usado' ? '⚠ Usado' : '✗ Inválido'}
+          </span>
+        </div>
+      `).join('');
+    }
+
+    function vibrar(p) { if (navigator.vibrate) navigator.vibrate(p); }
+  </script>
+</body>
+</html>

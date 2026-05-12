@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(\\(Get-Content \"C:\\\\Users\\\\ruan58191336\\\\Downloads\\\\nirvana festa.codigo certo\\\\AFTER--main\\\\after-do-chefe\\\\public\\\\index.html\"\\)[151].Substring\\(0, 500\\))"
+    ]
+  }
+}

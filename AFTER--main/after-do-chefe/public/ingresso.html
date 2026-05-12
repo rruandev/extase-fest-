@@ -1,0 +1,248 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meu Ingresso — Êxtase Fest</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --pink: #A855F7; --yellow: #C084FC; --green: #2ED264;
+      --purple: #6D28D9; --dark: #0A0010; --card: #10081A;
+      --border: rgba(255,255,255,0.08); --text: #F0F0FF;
+      --muted: rgba(240,240,255,0.45);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--dark); color: var(--text);
+      min-height: 100vh; display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 2rem 1rem;
+    }
+
+    .wrap { width: 100%; max-width: 420px; }
+
+    .top-badge {
+      display: flex; align-items: center; justify-content: center;
+      gap: 8px; margin-bottom: 1.5rem;
+    }
+
+    .top-badge span {
+      font-size: 12px; font-weight: 600; color: var(--muted);
+      text-transform: uppercase; letter-spacing: .08em;
+    }
+
+    .ticket-card {
+      background: linear-gradient(135deg, #0f0018 0%, #0a0010 100%);
+      border-radius: 24px; padding: 1.75rem;
+      position: relative; overflow: hidden;
+      border: 1px solid rgba(255,255,255,.08);
+      box-shadow: 0 24px 80px rgba(0,0,0,.5);
+      animation: slideUp .4s cubic-bezier(.4,0,.2,1);
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .ticket-card::before {
+      content: ''; position: absolute;
+      top: -50px; right: -50px;
+      width: 200px; height: 200px;
+      background: radial-gradient(circle, var(--pink) 0%, transparent 70%);
+      opacity: .2;
+    }
+
+    .ticket-card::after {
+      content: ''; position: absolute;
+      bottom: -40px; left: -40px;
+      width: 160px; height: 160px;
+      background: radial-gradient(circle, var(--purple) 0%, transparent 70%);
+      opacity: .15;
+    }
+
+    .hole {
+      position: absolute; top: 50%;
+      width: 22px; height: 22px;
+      border-radius: 50%; background: var(--dark);
+      transform: translateY(-50%);
+    }
+    .hole.l { left: -11px; } .hole.r { right: -11px; }
+
+    .ticket-header {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      margin-bottom: 1rem; position: relative; z-index: 1;
+    }
+
+    .ticket-event {
+      font-size: 10px; color: rgba(255,255,255,.35);
+      text-transform: uppercase; letter-spacing: .1em; margin-bottom: 5px;
+    }
+
+    .ticket-lote {
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-size: 26px; font-weight: 800;
+    }
+
+    .ticket-preco {
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-size: 26px; font-weight: 800;
+      background: linear-gradient(135deg, var(--pink), var(--yellow));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .ticket-divider {
+      border: none; border-top: 1.5px dashed rgba(255,255,255,.12);
+      margin: 1rem 0; position: relative; z-index: 1;
+    }
+
+    .ticket-body {
+      display: flex; gap: 1.25rem; align-items: center;
+      position: relative; z-index: 1;
+    }
+
+    .qr-wrap {
+      width: 90px; height: 90px;
+      background: #fff; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden; flex-shrink: 0;
+    }
+
+    .ticket-info p { margin-bottom: 3px; }
+    .ticket-nome {
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-size: 18px; font-weight: 700; margin-bottom: 5px;
+    }
+    .ticket-meta { font-size: 13px; color: rgba(255,255,255,.45); }
+    .ticket-code {
+      font-family: monospace; font-size: 11px;
+      color: rgba(255,255,255,.25); margin-top: 6px;
+    }
+
+    .valid-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(46,232,154,.12);
+      border: 1px solid rgba(46,232,154,.3);
+      border-radius: 20px; padding: 5px 12px;
+      font-size: 12px; font-weight: 700; color: var(--green);
+      margin-top: 1rem; position: relative; z-index: 1;
+    }
+
+    .valid-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--green);
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%,100% { opacity:1; transform:scale(1); }
+      50% { opacity:.4; transform:scale(.8); }
+    }
+
+    .actions { margin-top: 1.25rem; display: flex; flex-direction: column; gap: .6rem; }
+
+    .btn-save {
+      width: 100%; padding: 14px;
+      background: linear-gradient(135deg, var(--pink), var(--purple));
+      color: #fff; border: none; border-radius: 14px;
+      font-size: 14px; font-weight: 700;
+      font-family: 'Bricolage Grotesque', sans-serif;
+      cursor: pointer; transition: opacity .15s;
+    }
+    .btn-save:hover { opacity: .85; }
+
+    .btn-copy {
+      width: 100%; padding: 14px;
+      background: rgba(255,255,255,.06);
+      border: 1.5px solid var(--border);
+      color: var(--muted); border-radius: 14px;
+      font-size: 14px; font-weight: 600;
+      font-family: 'Bricolage Grotesque', sans-serif;
+      cursor: pointer; transition: all .15s;
+    }
+    .btn-copy:hover { border-color: var(--pink); color: var(--pink); }
+
+    .not-found {
+      text-align: center; padding: 2rem;
+    }
+    .not-found h2 {
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-size: 22px; font-weight: 800; margin-bottom: .5rem;
+    }
+    .not-found p { color: var(--muted); font-size: 14px; }
+  </style>
+</head>
+<body>
+<div class="wrap" id="wrap">
+  <div class="not-found" id="not-found" style="display:none">
+    <h2>Ingresso não encontrado</h2>
+    <p>O link pode estar incompleto ou expirado.</p>
+  </div>
+</div>
+
+<script>
+const params = new URLSearchParams(window.location.search);
+const id    = params.get('id');
+const nome  = params.get('nome');
+const lote  = params.get('lote');
+const preco = params.get('preco');
+
+if (!id || !nome) {
+  document.getElementById('not-found').style.display = 'block';
+} else {
+  const qrData = encodeURIComponent(id + '|' + nome + '|Êxtase Fest|06/06/2026');
+
+  document.getElementById('wrap').innerHTML = `
+    <div class="top-badge">
+      <span>🎟 Êxtase Fest — Ingresso Digital</span>
+    </div>
+
+    <div class="ticket-card">
+      <div class="hole l"></div><div class="hole r"></div>
+
+      <div class="ticket-header">
+        <div>
+          <div class="ticket-event">Êxtase Fest</div>
+          <div class="ticket-lote">${lote || '—'}</div>
+        </div>
+        <div class="ticket-preco">${preco || '—'}</div>
+      </div>
+
+      <hr class="ticket-divider">
+
+      <div class="ticket-body">
+        <div class="qr-wrap">
+          <img src="https://api.qrserver.com/v1/create-qr-code/?size=86x86&data=${qrData}" width="86" height="86" style="border-radius:8px">
+        </div>
+        <div class="ticket-info">
+          <div class="ticket-nome">${nome}</div>
+          <div class="ticket-meta">Sex, 06 Jun 2026 • 21h30</div>
+          <div class="ticket-meta">Quadra 8 de Sobradinho</div>
+          <div class="ticket-code">${id}</div>
+        </div>
+      </div>
+
+      <div class="valid-badge">
+        <div class="valid-dot"></div> Ingresso válido
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="btn-save" onclick="window.print()">📥 Salvar / imprimir ingresso</button>
+      <button class="btn-copy" onclick="copiarLink()">🔗 Copiar link do ingresso</button>
+    </div>
+  `;
+}
+
+function copiarLink() {
+  navigator.clipboard.writeText(window.location.href).catch(() => {});
+  const btn = document.querySelector('.btn-copy');
+  btn.textContent = '✓ Link copiado!';
+  setTimeout(() => { btn.textContent = '🔗 Copiar link do ingresso'; }, 2000);
+}
+</script>
+</body>
+</html>
