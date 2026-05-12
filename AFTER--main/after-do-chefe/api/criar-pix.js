@@ -75,7 +75,7 @@ export default async function handler(req, res) {
             number: cpfLimpo
           }
         },
-        notification_url: 'https://afterdochefe.com.br/api/webhook-pix',
+        notification_url: `${process.env.VERCEL_PROJECT_PRODUCTION_URL ? 'https://' + process.env.VERCEL_PROJECT_PRODUCTION_URL : 'https://extase-fest-ocpghlktt-rruandevs-projects.vercel.app'}/api/webhook-pix`,
         metadata: {
           evento: 'extase-fest',
           lote,
