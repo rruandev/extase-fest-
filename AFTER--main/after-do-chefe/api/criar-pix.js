@@ -2,7 +2,7 @@
 // Vercel Serverless Function
 import { kv } from '@vercel/kv';
 
-const TOTAL_VAGAS = { 1: 100, 2: 100, 3: 100 };
+const TOTAL_VAGAS = { 1: 50, 2: 100, 3: 150 };
 const LOTE_NOMES  = { '1º Lote': 1, '2º Lote': 2, '3º Lote': 3 };
 
 export default async function handler(req, res) {
