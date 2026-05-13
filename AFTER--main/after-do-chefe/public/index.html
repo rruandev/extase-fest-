@@ -623,9 +623,9 @@ window.addEventListener('DOMContentLoaded', function() {
 
 <script>
 (function(){
-  var base=12+Math.floor(Math.random()*22);var count=base;
+  var base=2+Math.floor(Math.random()*11);var count=base;
   var el=document.getElementById('sp-count');if(el)el.textContent=count;
-  setInterval(function(){count=Math.max(12,Math.min(120,count+(Math.random()<.5?1:-1)));var e=document.getElementById('sp-count');if(e)e.textContent=count;},4500);
+  setInterval(function(){count=Math.max(2,Math.min(12,count+(Math.random()<.5?1:-1)));var e=document.getElementById('sp-count');if(e)e.textContent=count;},4500);
 })();
 
 (function(){
