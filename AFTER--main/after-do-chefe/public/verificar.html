@@ -244,7 +244,13 @@
         body: JSON.stringify({ codigo: 'TEST', senha: s })
       });
 
-      if (res.status === 401) {
+      if (res.status !== 200) {
+        document.getElementById('login-erro').style.display = 'block';
+        return;
+      }
+
+      const data = await res.json();
+      if (!data.ok) {
         document.getElementById('login-erro').style.display = 'block';
         return;
       }

@@ -1,4 +1,9 @@
-import { kv } from '@vercel/kv';
+import { Redis } from '@upstash/redis';
+
+const kv = new Redis({
+  url: process.env.UPSTASH_REDIS_REST_URL,
+  token: process.env.UPSTASH_REDIS_REST_TOKEN
+});
 
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -8,12 +13,18 @@ export default async function handler(req, res) {
 
   const { codigo, senha } = req.body;
 
-  if (senha !== process.env.SENHA_PORTEIRO) {
+  // Verifica senha — retorna 401 sempre que errada ou ausente
+  if (!senha || senha !== process.env.SENHA_PORTEIRO) {
     return res.status(401).json({ valido: false, erro: 'Acesso não autorizado' });
   }
 
   if (!codigo) {
     return res.status(400).json({ valido: false, erro: 'Código não informado' });
+  }
+
+  // Teste de autenticação (sem código real)
+  if (codigo === 'TEST') {
+    return res.status(200).json({ ok: true });
   }
 
   const partes = codigo.split('|');
@@ -29,22 +40,27 @@ export default async function handler(req, res) {
     });
   }
 
-  const inserido = await kv.setnx(`ingresso:${codigoIngresso}`, Date.now());
+  try {
+    const inserido = await kv.set(`ingresso:${codigoIngresso}`, Date.now(), { nx: true });
 
-  if (inserido === 0) {
+    if (inserido === null) {
+      return res.status(200).json({
+        valido: false,
+        erro: 'Ingresso já utilizado',
+        codigo: codigoIngresso,
+        nome: nomeComprador
+      });
+    }
+
     return res.status(200).json({
-      valido: false,
-      erro: 'Ingresso já utilizado',
+      valido: true,
       codigo: codigoIngresso,
-      nome: nomeComprador
+      nome: nomeComprador,
+      evento,
+      data
     });
+  } catch (err) {
+    console.error('Erro ao verificar ingresso:', err);
+    return res.status(500).json({ valido: false, erro: 'Erro interno ao verificar ingresso' });
   }
-
-  return res.status(200).json({
-    valido: true,
-    codigo: codigoIngresso,
-    nome: nomeComprador,
-    evento,
-    data
-  });
 }
