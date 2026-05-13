@@ -181,12 +181,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 @keyframes pulse-dot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.7)}}
 .social-proof strong{color:#C084FC}
 
-/* TOAST */
-#toast-container{position:fixed;bottom:80px;left:16px;z-index:9999;display:flex;flex-direction:column;gap:8px;pointer-events:none}
-.toast{background:#10081A;border:1px solid rgba(168,85,247,.3);border-radius:12px;padding:10px 14px;display:flex;align-items:center;gap:10px;font-size:13px;color:rgba(240,240,255,.85);box-shadow:0 8px 24px rgba(0,0,0,.4);animation:toastIn .4s cubic-bezier(.4,0,.2,1);pointer-events:auto;max-width:280px}
-.toast-icon{font-size:18px;flex-shrink:0}
-@keyframes toastIn{from{opacity:0;transform:translateX(-20px)}to{opacity:1;transform:translateX(0)}}
-@keyframes toastOut{from{opacity:1;transform:translateX(0)}to{opacity:0;transform:translateX(-20px)}}
+
 
 /* WHATSAPP FLUTUANTE */
 #wpp-float{position:fixed;bottom:20px;right:20px;z-index:9998;width:54px;height:54px;border-radius:50%;background:linear-gradient(135deg,#25D366,#128C7E);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(37,211,102,.45);text-decoration:none;font-size:26px;animation:wpp-pulse 2.5s ease-in-out infinite;transition:transform .2s}
@@ -613,7 +608,6 @@ window.addEventListener('DOMContentLoaded', function() {
 
 <a id="wpp-float" href="https://wa.me/5561991893159?text=Ol%C3%A1%2C+tenho+uma+d%C3%BAvida+sobre+o+%C3%8Axtase+Fest!" target="_blank" title="Falar no WhatsApp">&#x1F4AC;</a>
 
-<div id="toast-container"></div>
 
 <div id="exit-overlay">
   <div class="exit-box">
@@ -686,17 +680,7 @@ window.addEventListener('DOMContentLoaded', function() {
     });
 })();
 
-var _nomes=['Ana C.','Pedro M.','Lucas S.','Juliana R.','Marcos T.','Fernanda L.','Gabriel O.','Beatriz N.','Rafael A.','Camila F.'];
-var _lotes=['1º Lote','1º Lote','1º Lote','2º Lote','2º Lote','3º Lote'];
-function showToast(){
-  var nome=_nomes[Math.floor(Math.random()*_nomes.length)];
-  var lote=_lotes[Math.floor(Math.random()*_lotes.length)];
-  var t=document.createElement('div');t.className='toast';
-  t.innerHTML='<span class="toast-icon">&#x1F39F;</span><span><strong>'+nome+'</strong> acabou de garantir o <strong>'+lote+'</strong>!</span>';
-  var c=document.getElementById('toast-container');c.appendChild(t);
-  setTimeout(function(){t.style.animation='toastOut .4s forwards';setTimeout(function(){if(t.parentNode)t.remove();},400);},4000);
-}
-setTimeout(function(){showToast();setInterval(showToast,20000+Math.random()*20000);},8000);
+
 
 var _exitShown=false;
 document.addEventListener('mouseleave',function(e){if(e.clientY<5&&!_exitShown){_exitShown=true;document.getElementById('exit-overlay').classList.add('show');}});
