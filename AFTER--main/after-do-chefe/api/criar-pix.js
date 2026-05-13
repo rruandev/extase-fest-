@@ -1,6 +1,7 @@
 ﻿// api/criar-pix.js
 // Vercel Serverless Function
-import { kv } from '@vercel/kv';
+import { Redis } from '@upstash/redis';
+const kv = new Redis({ url: process.env.UPSTASH_REDIS_REST_URL, token: process.env.UPSTASH_REDIS_REST_TOKEN });
 
 const TOTAL_VAGAS = { 1: 50, 2: 100, 3: 150 };
 const LOTE_NOMES  = { '1º Lote': 1, '2º Lote': 2, '3º Lote': 3 };
