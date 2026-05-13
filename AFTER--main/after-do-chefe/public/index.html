@@ -629,12 +629,13 @@ window.addEventListener('DOMContentLoaded', function() {
 })();
 
 (function(){
-  fetch('/api/vagas')
+  fetch('/api/vagas?t='+Date.now())
     .then(function(r){return r.json();})
     .then(function(data){
       var vagas = data.vagas || {};
-      var totais = {1:50,2:100,3:150}; var total = totais[i] || 100;
+      var totais = {1:50,2:100,3:150};
       [1,2,3].forEach(function(i){
+        var total = totais[i] || 100;
         var v = vagas[i] !== undefined ? parseInt(vagas[i]) : total;
         var bar = document.getElementById('bar-'+i);
         var txt = document.getElementById('vagas-'+i);

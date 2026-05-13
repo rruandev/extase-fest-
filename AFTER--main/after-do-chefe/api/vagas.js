@@ -6,6 +6,8 @@ const TOTAL_VAGAS = { 1: 50, 2: 100, 3: 150 };
 
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate');
+  res.setHeader('Pragma', 'no-cache');
 
   try {
     const [v1, v2, v3] = await Promise.all([
