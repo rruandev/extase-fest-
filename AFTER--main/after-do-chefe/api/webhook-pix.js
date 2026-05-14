@@ -92,7 +92,7 @@ export default async function handler(req, res) {
           >
           <div>
             <p style="font-size:14px;font-weight:600;margin:0 0 3px">${comprador_nome}</p>
-            <p style="font-size:12px;color:rgba(255,255,255,0.55);margin:0">Sáb, 09 Mai 2026 • 21h00</p>
+            <p style="font-size:12px;color:rgba(255,255,255,0.55);margin:0">Sáb, 06 Jun 2026 • 21h30</p>
             <p style="font-size:12px;color:rgba(255,255,255,0.55);margin:2px 0">Brasília, DF</p>
             <p style="font-size:10px;color:rgba(255,255,255,0.3);font-family:monospace;margin:6px 0 0">${codigo}</p>
           </div>
@@ -121,8 +121,8 @@ export default async function handler(req, res) {
     <div style="background:#fff;border-radius:12px;padding:1.25rem;border:1px solid #e8e8e4;margin-bottom:1rem">
       <p style="font-size:13px;font-weight:600;color:#333;margin:0 0 .75rem">Informações do evento</p>
       <table style="width:100%;font-size:13px;border-collapse:collapse">
-        <tr><td style="color:#888;padding:4px 0">Data</td><td style="text-align:right;font-weight:500">Sábado, 09 de Maio de 2026</td></tr>
-        <tr><td style="color:#888;padding:4px 0">Horário</td><td style="text-align:right;font-weight:500">21h00</td></tr>
+        <tr><td style="color:#888;padding:4px 0">Data</td><td style="text-align:right;font-weight:500">Sábado, 06 de Junho de 2026</td></tr>
+        <tr><td style="color:#888;padding:4px 0">Horário</td><td style="text-align:right;font-weight:500">21h30</td></tr>
         <tr><td style="color:#888;padding:4px 0">Local</td><td style="text-align:right;font-weight:500">Brasília, DF</td></tr>
         <tr><td style="color:#888;padding:4px 0">Lote</td><td style="text-align:right;font-weight:500">${lote}</td></tr>
         <tr><td style="color:#888;padding:4px 0">Quantidade</td><td style="text-align:right;font-weight:500">${qtd} ingresso${qtd > 1 ? 's' : ''}</td></tr>

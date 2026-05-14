@@ -239,7 +239,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
     <span></span><span></span><span></span><span></span><span></span>
   </div>
   <div class="nhv-content">
-    <div class="nhv-date-badge">📅 06 DE JUNHO &nbsp;·&nbsp; SEXTA-FEIRA &nbsp;·&nbsp; 21H30</div>
+    <div class="nhv-date-badge">📅 06 DE JUNHO &nbsp;·&nbsp; SÁBADO &nbsp;·&nbsp; 21H30</div>
     <div class="nhv-title">
       <span class="nhv-t1">ÊXTASE</span>
       <span class="nhv-t2">FEST</span>
@@ -597,7 +597,7 @@ const preco=(total-lote.taxa*qty)/qty;const wrap=document.getElementById('ingres
 for(let i=0;i<qty;i++){
 const code='#AC2026-'+Math.floor(10000+Math.random()*90000);
 const label=qty>1?`<span style="font-size:12px;color:rgba(255,255,255,.4);font-weight:400"> ${i+1}/${qty}</span>`:'';
-wrap.innerHTML+=`<div style="margin-bottom:.75rem"><div class="section-title" style="margin-bottom:.5rem">Ingresso ${qty>1?(i+1)+' de '+qty:'digital'}</div><div class="ticket-card"><div class="hole l"></div><div class="hole r"></div><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.75rem;position:relative;z-index:1"><div><p style="font-size:10px;color:rgba(255,255,255,0.35);text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px">Nirvana 🇧🇷</p><p style="font-family:'Bricolage Grotesque',sans-serif;font-size:20px;font-weight:800">${lote.nome}${label}</p></div><p style="font-family:'Bricolage Grotesque',sans-serif;font-size:20px;font-weight:800;background:linear-gradient(135deg,var(--pink),var(--yellow));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">${fmt(preco)}</p></div><hr class="ticket-divider"><div style="position:relative;z-index:1"><p style="font-size:15px;font-weight:700;margin-bottom:3px;font-family:'Bricolage Grotesque',sans-serif">${nome}</p><p style="font-size:12px;color:rgba(255,255,255,0.45)">Sáb, 09 Mai 2026 • 21h00 — Brasília, DF</p><p style="font-size:10px;color:rgba(255,255,255,0.25);font-family:monospace;margin-top:5px">${code}</p></div></div></div>`;
+wrap.innerHTML+=`<div style="margin-bottom:.75rem"><div class="section-title" style="margin-bottom:.5rem">Ingresso ${qty>1?(i+1)+' de '+qty:'digital'}</div><div class="ticket-card"><div class="hole l"></div><div class="hole r"></div><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.75rem;position:relative;z-index:1"><div><p style="font-size:10px;color:rgba(255,255,255,0.35);text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px">Êxtase Fest 🇧🇷</p><p style="font-family:'Bricolage Grotesque',sans-serif;font-size:20px;font-weight:800">${lote.nome}${label}</p></div><p style="font-family:'Bricolage Grotesque',sans-serif;font-size:20px;font-weight:800;background:linear-gradient(135deg,var(--pink),var(--yellow));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">${fmt(preco)}</p></div><hr class="ticket-divider"><div style="position:relative;z-index:1"><p style="font-size:15px;font-weight:700;margin-bottom:3px;font-family:'Bricolage Grotesque',sans-serif">${nome}</p><p style="font-size:12px;color:rgba(255,255,255,0.45)">Sáb, 06 Jun 2026 • 21h30 — Brasília, DF</p><p style="font-size:10px;color:rgba(255,255,255,0.25);font-family:monospace;margin-top:5px">${code}</p></div></div></div>`;
 }
 }
 
