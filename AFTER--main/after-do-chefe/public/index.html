@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
@@ -277,16 +277,9 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 <div class="section-title">Escolha o lote</div>
 <div class="lote-row selected" id="lote-1" onclick="selecionarLote(1)">
 <div><div class="lote-nome">1º Lote <span class="badge badge-ok">disponível</span></div><div class="lote-vagas" id="vagas-1">50 vagas restantes</div><div class="lote-progress"><div class="lote-progress-bar" id="bar-1" style="width:100%"></div></div></div>
-<div class="lote-preco">R$ 15</div>
+<div class="lote-preco">R$ 10</div>
 </div>
-<div class="lote-row" id="lote-2" onclick="selecionarLote(2)">
-<div><div class="lote-nome">2º Lote <span class="badge badge-ok">disponível</span></div><div class="lote-vagas" id="vagas-2">100 vagas restantes</div><div class="lote-progress"><div class="lote-progress-bar" id="bar-2" style="width:100%"></div></div></div>
-<div class="lote-preco">R$ 20</div>
-</div>
-<div class="lote-row" id="lote-3" onclick="selecionarLote(3)">
-<div><div class="lote-nome">3º Lote <span class="badge badge-ok">disponível</span></div><div class="lote-vagas" id="vagas-3">150 vagas restantes</div><div class="lote-progress"><div class="lote-progress-bar" id="bar-3" style="width:100%"></div></div></div>
-<div class="lote-preco">R$ 25</div>
-</div>
+
 </div>
 
 <div class="card reveal">
@@ -490,7 +483,7 @@ updateCountdown();setInterval(updateCountdown,1000);
   });
 })();
 
-const LOTES={1:{nome:'1º Lote',preco:15,taxa:1},2:{nome:'2º Lote',preco:20,taxa:1},3:{nome:'3º Lote',preco:25,taxa:1}};
+const LOTES={1:{nome:'1º Lote',preco:10,taxa:1}};
 let loteAtual=1,qty=1,timerInt,paymentId,pollInt;
 const LIMITE_CPF=10;
 
@@ -498,7 +491,7 @@ function getComprasCPF(cpf){return(JSON.parse(localStorage.getItem('ecstasy_comp
 function registrarComprasCPF(cpf,n){const d=JSON.parse(localStorage.getItem('ecstasy_compras')||'{}');d[cpf]=(d[cpf]||0)+n;localStorage.setItem('ecstasy_compras',JSON.stringify(d))}
 function disponiveisCPF(cpf){return Math.max(0,LIMITE_CPF-getComprasCPF(cpf))}
 
-function selecionarLote(n){loteAtual=n;[1,2,3].forEach(i=>{const el=document.getElementById('lote-'+i);if(el)el.classList.toggle('selected',i===n)});atualizarResumo()}
+function selecionarLote(n){loteAtual=n;[1].forEach(i=>{const el=document.getElementById('lote-'+i);if(el)el.classList.toggle('selected',i===n)});atualizarResumo()}
 
 function changeQty(d){qty=Math.max(1,Math.min(qty+d,3));document.getElementById('qty-num').textContent=qty;atualizarResumo()}
 
@@ -615,8 +608,8 @@ window.addEventListener('DOMContentLoaded', function() {
     <div style="font-size:40px;margin-bottom:.75rem">&#x26A0;&#xFE0F;</div>
     <h2>Espera! Não vai perder isso...</h2>
     <p>Os ingressos do <strong style="color:#C084FC">1º Lote</strong> estão acabando. Garante o seu antes que o preço suba!</p>
-    <div class="exit-discount">Menor preço disponível:<br><strong>R$ 15,00</strong> &mdash; 1º Lote</div>
-    <button class="exit-btn-yes" onclick="fecharExit();document.getElementById('lote-1').click();document.getElementById('btn-pagar').scrollIntoView({behavior:'smooth'})">&#x1F39F; Quero garantir por R$ 15!</button>
+    <div class="exit-discount">Menor preço disponível:<br><strong>R$ 10,00</strong> &mdash; 1º Lote</div>
+    <button class="exit-btn-yes" onclick="fecharExit();document.getElementById('lote-1').click();document.getElementById('btn-pagar').scrollIntoView({behavior:'smooth'})">&#x1F39F; Quero garantir por R$ 10!</button>
     <button class="exit-btn-no" onclick="fecharExit()">Não, prefiro pagar mais caro depois</button>
   </div>
 </div>
@@ -633,8 +626,8 @@ window.addEventListener('DOMContentLoaded', function() {
     .then(function(r){return r.json();})
     .then(function(data){
       var vagas = data.vagas || {};
-      var totais = {1:50,2:100,3:150};
-      [1,2,3].forEach(function(i){
+      var totais = {1:50};
+      [1].forEach(function(i){
         var total = totais[i] || 100;
         var v = vagas[i] !== undefined ? parseInt(vagas[i]) : total;
         var bar = document.getElementById('bar-'+i);
