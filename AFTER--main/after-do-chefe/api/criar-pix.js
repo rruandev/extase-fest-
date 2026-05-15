@@ -1,10 +1,9 @@
 ﻿// api/criar-pix.js
 // Vercel Serverless Function
 import { Redis } from '@upstash/redis';
-const kv = new Redis({ url: process.env.UPSTASH_REDIS_REST_URL, token: process.env.UPSTASH_REDIS_REST_TOKEN });
+import { TOTAL_VAGAS, LOTE_NOMES } from './_lib.js';
 
-const TOTAL_VAGAS = { 1: 50, 2: 100, 3: 150 };
-const LOTE_NOMES  = { '1º Lote': 1, '2º Lote': 2, '3º Lote': 3 };
+const kv = new Redis({ url: process.env.UPSTASH_REDIS_REST_URL, token: process.env.UPSTASH_REDIS_REST_TOKEN });
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -76,7 +75,7 @@ export default async function handler(req, res) {
             number: cpfLimpo
           }
         },
-        notification_url: 'https://extasefest.com.br/api/webhook-pix',
+        notification_url: `${process.env.SITE_URL || 'https://extasefest.com.br'}/api/webhook-pix`,
         metadata: {
           evento: 'extase-fest',
           lote,

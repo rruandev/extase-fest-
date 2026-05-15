@@ -273,10 +273,10 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 </div>
 
 <div class="card reveal">
-<div class="social-proof" id="social-proof-bar"><div class="social-proof-dot"></div><span><strong id="sp-count">47</strong> pessoas estao vendo essa pagina agora</span></div>
+<div class="social-proof" id="social-proof-bar"><div class="social-proof-dot"></div><span><strong id="sp-count">47</strong> pessoas estão vendo essa página agora</span></div>
 <div class="section-title">Escolha o lote</div>
 <div class="lote-row selected" id="lote-1" onclick="selecionarLote(1)">
-<div><div class="lote-nome">1º Lote <span class="badge badge-ok">disponível</span></div><div class="lote-vagas" id="vagas-1">60 vagas restantes</div><div style="font-size:11px;color:#C084FC;margin-top:4px;font-weight:600">&#x23F3; Expira em: <span id="lote-timer">--:--:--</span></div><div class="lote-progress"><div class="lote-progress-bar" id="bar-1" style="width:100%"></div></div></div>
+<div><div class="lote-nome">1º Lote <span class="badge badge-ok">disponível</span></div><div class="lote-vagas" id="vagas-1">50 vagas restantes</div><div style="font-size:11px;color:#C084FC;margin-top:4px;font-weight:600">&#x23F3; Expira em: <span id="lote-timer">--:--:--</span></div><div class="lote-progress"><div class="lote-progress-bar" id="bar-1" style="width:100%"></div></div></div>
 <div class="lote-preco">R$ 10</div>
 </div>
 <div class="lote-row" id="lote-2" onclick="selecionarLote(2)">
@@ -284,7 +284,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 <div class="lote-preco">R$ 15</div>
 </div>
 <div class="lote-row" id="lote-3" onclick="selecionarLote(3)">
-<div><div class="lote-nome">3º Lote <span class="badge badge-ok">disponível</span></div><div class="lote-vagas" id="vagas-3">140 vagas restantes</div><div style="font-size:11px;color:#C084FC;margin-top:4px;font-weight:600">&#x23F3; Expira em: <span id="lote-timer-3">--:--:--</span></div><div class="lote-progress"><div class="lote-progress-bar" id="bar-3" style="width:100%"></div></div></div>
+<div><div class="lote-nome">3º Lote <span class="badge badge-ok">disponível</span></div><div class="lote-vagas" id="vagas-3">150 vagas restantes</div><div style="font-size:11px;color:#C084FC;margin-top:4px;font-weight:600">&#x23F3; Expira em: <span id="lote-timer-3">--:--:--</span></div><div class="lote-progress"><div class="lote-progress-bar" id="bar-3" style="width:100%"></div></div></div>
 <div class="lote-preco">R$ 20</div>
 </div>
 
@@ -543,8 +543,8 @@ const LOTES={1:{nome:'1º Lote',preco:10,taxa:1},2:{nome:'2º Lote',preco:15,tax
 let loteAtual=1,qty=1,timerInt,paymentId,pollInt;
 const LIMITE_CPF=10;
 
-function getComprasCPF(cpf){return(JSON.parse(localStorage.getItem('ecstasy_compras')||'{}')[cpf])||0}
-function registrarComprasCPF(cpf,n){const d=JSON.parse(localStorage.getItem('ecstasy_compras')||'{}');d[cpf]=(d[cpf]||0)+n;localStorage.setItem('ecstasy_compras',JSON.stringify(d))}
+function getComprasCPF(cpf){return(JSON.parse(localStorage.getItem('extase_compras')||'{}')[cpf])||0}
+function registrarComprasCPF(cpf,n){const d=JSON.parse(localStorage.getItem('extase_compras')||'{}');d[cpf]=(d[cpf]||0)+n;localStorage.setItem('extase_compras',JSON.stringify(d))}
 function disponiveisCPF(cpf){return Math.max(0,LIMITE_CPF-getComprasCPF(cpf))}
 
 function selecionarLote(n){loteAtual=n;[1,2,3].forEach(i=>{const el=document.getElementById('lote-'+i);if(el)el.classList.toggle('selected',i===n)});atualizarResumo()}
@@ -682,7 +682,7 @@ window.addEventListener('DOMContentLoaded', function() {
     .then(function(r){return r.json();})
     .then(function(data){
       var vagas = data.vagas || {};
-      var totais = {1:60,2:100,3:140};
+      var totais = {1:50,2:100,3:150};
       [1,2,3].forEach(function(i){
         var total = totais[i] || 100;
         var v = vagas[i] !== undefined ? parseInt(vagas[i]) : total;
