@@ -276,7 +276,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 <div class="social-proof" id="social-proof-bar"><div class="social-proof-dot"></div><span><strong id="sp-count">47</strong> pessoas estao vendo essa pagina agora</span></div>
 <div class="section-title">Escolha o lote</div>
 <div class="lote-row selected" id="lote-1" onclick="selecionarLote(1)">
-<div><div class="lote-nome">1º Lote <span class="badge badge-ok">disponível</span></div><div class="lote-vagas" id="vagas-1">50 vagas restantes</div><div class="lote-progress"><div class="lote-progress-bar" id="bar-1" style="width:100%"></div></div></div>
+<div><div class="lote-nome">1º Lote <span class="badge badge-ok">disponível</span></div><div class="lote-vagas" id="vagas-1">300 vagas restantes</div><div class="lote-progress"><div class="lote-progress-bar" id="bar-1" style="width:100%"></div></div></div>
 <div class="lote-preco">R$ 10</div>
 </div>
 
@@ -626,7 +626,7 @@ window.addEventListener('DOMContentLoaded', function() {
     .then(function(r){return r.json();})
     .then(function(data){
       var vagas = data.vagas || {};
-      var totais = {1:50};
+      var totais = {1:300};
       [1].forEach(function(i){
         var total = totais[i] || 100;
         var v = vagas[i] !== undefined ? parseInt(vagas[i]) : total;
