@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Êxtase Fest — Anúncio Story</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: #111;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  gap: 20px;
+  padding: 30px 20px;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.instructions {
+  color: rgba(192,132,252,.7);
+  font-size: 13px;
+  text-align: center;
+  line-height: 1.6;
+}
+.print-btn {
+  background: linear-gradient(135deg, #A855F7, #6D28D9);
+  color: #fff;
+  border: none;
+  padding: 12px 28px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: 'Bricolage Grotesque', sans-serif;
+}
+
+/* Story wrapper — preview escalado */
+.story-wrapper {
+  width: 405px;
+  height: 720px;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 32px 80px rgba(0,0,0,.8), 0 0 0 1px rgba(168,85,247,.4);
+  flex-shrink: 0;
+  position: relative;
+}
+
+/* Story real: 1080×1920 escalado */
+.story {
+  width: 1080px;
+  height: 1920px;
+  transform-origin: top left;
+  transform: scale(0.375);
+  position: absolute;
+  top: 0; left: 0;
+  background: #06000E;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+}
+
+/* ── CAMADAS DE FUNDO ── */
+.bg-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.radial-top {
+  background: radial-gradient(ellipse 100% 60% at 50% -10%,
+    rgba(168,85,247,.55) 0%,
+    rgba(109,40,217,.2) 40%,
+    transparent 70%);
+}
+.radial-bottom {
+  background: radial-gradient(ellipse 80% 40% at 50% 110%,
+    rgba(109,40,217,.4) 0%,
+    transparent 60%);
+}
+.grid-layer {
+  background-image:
+    linear-gradient(rgba(168,85,247,.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(168,85,247,.06) 1px, transparent 1px);
+  background-size: 80px 80px;
+  mask-image: radial-gradient(ellipse 100% 100% at 50% 50%, black 20%, transparent 100%);
+}
+.noise-layer {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  opacity: .6;
+}
+
+/* Partículas */
+.particle { position: absolute; border-radius: 50%; pointer-events: none; }
+
+/* ── SEÇÃO TOPO ── */
+.top-bar {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 60px 0;
+}
+.brand {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: 28px;
+  font-weight: 800;
+  color: rgba(192,132,252,.4);
+  letter-spacing: .35em;
+  text-transform: uppercase;
+}
+
+/* ── HERO ── */
+.hero-section {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 60px 80px 0;
+  flex: 1;
+}
+
+.event-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(168,85,247,.14);
+  border: 1.5px solid rgba(168,85,247,.4);
+  border-radius: 60px;
+  padding: 16px 40px;
+  font-size: 26px;
+  font-weight: 700;
+  color: #C084FC;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  margin-bottom: 50px;
+}
+
+.main-title {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-weight: 800;
+  font-size: 160px;
+  line-height: .95;
+  letter-spacing: -4px;
+  background: linear-gradient(180deg, #fff 0%, #E0AAFF 40%, #A855F7 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 0 60px rgba(168,85,247,.7));
+  text-align: center;
+  margin-bottom: 10px;
+}
+.sub-title {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-weight: 800;
+  font-size: 76px;
+  letter-spacing: .25em;
+  background: linear-gradient(90deg, #7C3AED, #A855F7, #C084FC, #A855F7, #7C3AED);
+  background-size: 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-align: center;
+  margin-bottom: 50px;
+  animation: shimmer 3s linear infinite;
+}
+@keyframes shimmer { 0%{background-position:0%} 100%{background-position:200%} }
+
+.divider {
+  width: 100px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #A855F7, transparent);
+  margin: 0 auto 50px;
+}
+
+/* Infos do evento */
+.info-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  width: 100%;
+  margin-bottom: 50px;
+}
+.info-row {
+  display: flex;
+  align-items: center;
+  gap: 26px;
+  background: rgba(168,85,247,.07);
+  border: 1.5px solid rgba(168,85,247,.18);
+  border-radius: 20px;
+  padding: 28px 36px;
+}
+.info-icon { font-size: 42px; min-width: 50px; text-align: center; }
+.info-text {}
+.info-label { font-size: 22px; color: rgba(168,85,247,.55); font-weight: 600; letter-spacing: .07em; text-transform: uppercase; margin-bottom: 4px; }
+.info-val { font-family: 'Bricolage Grotesque', sans-serif; font-size: 36px; font-weight: 700; color: #fff; }
+
+/* ── CTA WHATSAPP ── */
+.cta-section {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  padding: 0 70px 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+.cta-label {
+  font-size: 32px;
+  color: rgba(240,240,255,.45);
+  text-align: center;
+  line-height: 1.4;
+}
+.cta-label strong { color: #C084FC; }
+
+.wpp-btn {
+  width: 100%;
+  background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+  border-radius: 28px;
+  padding: 50px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+  box-shadow: 0 20px 60px rgba(37,211,102,.4), 0 0 0 2px rgba(37,211,102,.3);
+  position: relative;
+  overflow: hidden;
+}
+.wpp-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,.12) 0%, transparent 60%);
+}
+.wpp-icon { font-size: 80px; position: relative; z-index: 1; }
+.wpp-text { position: relative; z-index: 1; text-align: left; }
+.wpp-cta-label { font-size: 26px; color: rgba(255,255,255,.75); font-weight: 600; letter-spacing: .06em; text-transform: uppercase; margin-bottom: 6px; }
+.wpp-cta-main { font-family: 'Bricolage Grotesque', sans-serif; font-size: 52px; font-weight: 800; color: #fff; line-height: 1.1; }
+
+.link-box {
+  width: 100%;
+  background: rgba(37,211,102,.08);
+  border: 1.5px solid rgba(37,211,102,.25);
+  border-radius: 20px;
+  padding: 28px 36px;
+  text-align: center;
+}
+.link-label { font-size: 22px; color: rgba(255,255,255,.35); font-weight: 600; letter-spacing: .08em; text-transform: uppercase; margin-bottom: 8px; }
+.link-val { font-family: 'Bricolage Grotesque', sans-serif; font-size: 34px; font-weight: 700; color: #25D366; word-break: break-all; }
+
+/* PRINT */
+@media print {
+  body { background: white; padding: 0; }
+  .instructions, .print-btn { display: none; }
+  .story-wrapper {
+    width: 1080px;
+    height: 1920px;
+    border-radius: 0;
+    box-shadow: none;
+    page-break-after: always;
+  }
+  .story { transform: none; }
+  @page { size: 1080px 1920px; margin: 0; }
+}
+</style>
+</head>
+<body>
+
+<div class="instructions">
+  Salve como PNG: no Chrome → botão direito na imagem → "Salvar imagem como"<br>
+  Ou salve como PDF: <strong>Ctrl+P → Salvar como PDF → Margens: Nenhuma</strong>
+</div>
+<button class="print-btn" onclick="window.print()">📥 Salvar como PDF</button>
+
+<div class="story-wrapper">
+  <div class="story">
+
+    <!-- Fundos -->
+    <div class="bg-layer radial-top"></div>
+    <div class="bg-layer radial-bottom"></div>
+    <div class="bg-layer grid-layer"></div>
+    <div class="bg-layer noise-layer"></div>
+
+    <!-- Partículas -->
+    <div class="particle" style="width:10px;height:10px;background:#A855F7;top:8%;left:10%;opacity:.8"></div>
+    <div class="particle" style="width:6px;height:6px;background:#C084FC;top:12%;right:16%;opacity:.6"></div>
+    <div class="particle" style="width:14px;height:14px;background:rgba(168,85,247,.3);top:22%;left:6%;border-radius:4px;transform:rotate(45deg);opacity:.7"></div>
+    <div class="particle" style="width:8px;height:8px;background:#7C3AED;top:32%;right:8%;opacity:.9"></div>
+    <div class="particle" style="width:5px;height:5px;background:#A855F7;top:48%;left:4%;opacity:.8"></div>
+    <div class="particle" style="width:12px;height:12px;background:#C084FC;bottom:32%;right:6%;opacity:.5"></div>
+    <div class="particle" style="width:7px;height:7px;background:#A855F7;bottom:20%;left:12%;opacity:.7"></div>
+
+    <!-- Topo -->
+    <div class="top-bar">
+      <div class="brand">ÊXTASE &nbsp;·&nbsp; FEST</div>
+    </div>
+
+    <!-- Hero -->
+    <div class="hero-section">
+      <div class="event-tag">🎟️ &nbsp;INGRESSOS OFICIAIS</div>
+
+      <div class="main-title">ÊXTASE</div>
+      <div class="sub-title">FEST</div>
+
+      <div class="divider"></div>
+
+      <div class="info-grid">
+        <div class="info-row">
+          <span class="info-icon">📅</span>
+          <div class="info-text">
+            <div class="info-label">Data</div>
+            <div class="info-val">Sábado, 06 de Junho de 2026</div>
+          </div>
+        </div>
+        <div class="info-row">
+          <span class="info-icon">🕤</span>
+          <div class="info-text">
+            <div class="info-label">Horário</div>
+            <div class="info-val">21h30 — Sobradinho, DF</div>
+          </div>
+        </div>
+        <div class="info-row">
+          <span class="info-icon">🎧</span>
+          <div class="info-text">
+            <div class="info-label">Line-up</div>
+            <div class="info-val">DJ Gustavo — Eletrofunk & House</div>
+          </div>
+        </div>
+        <div class="info-row">
+          <span class="info-icon">🎟️</span>
+          <div class="info-text">
+            <div class="info-label">1º Lote</div>
+            <div class="info-val">A partir de R$ 10,00</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA WhatsApp -->
+    <div class="cta-section">
+      <div class="cta-label">Entre no grupo exclusivo e receba<br><strong>atualizações e novidades em primeira mão</strong></div>
+
+      <div class="wpp-btn">
+        <div class="wpp-icon">💬</div>
+        <div class="wpp-text">
+          <div class="wpp-cta-label">Clique e entre no</div>
+          <div class="wpp-cta-main">Grupo do WhatsApp</div>
+        </div>
+      </div>
+
+      <div class="link-box">
+        <div class="link-label">Link do grupo</div>
+        <div class="link-val" id="wpp-link">chat.whatsapp.com/SEU-LINK-AQUI</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<button class="print-btn" onclick="window.print()">📥 Salvar como PDF</button>
+
+</body>
+</html>
