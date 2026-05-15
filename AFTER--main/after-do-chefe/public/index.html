@@ -211,11 +211,24 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 .faq-item.open .faq-a{max-height:200px;padding-top:8px}
 
 </style>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+/* MÍDIA — LOCAL E DJ */
+.media-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px}
+.media-placeholder{background:rgba(168,85,247,.04);border:1.5px dashed rgba(168,85,247,.2);border-radius:14px;aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;color:rgba(168,85,247,.4);font-weight:600;font-size:12px;text-align:center;padding:12px}
+.media-placeholder .mp-icon{font-size:28px}
+.media-placeholder img{width:100%;height:100%;object-fit:cover;border-radius:12px;display:block}
+/* COMPARTILHAR */
+.share-row{display:flex;gap:8px;margin-top:.75rem}
+.btn-share{flex:1;padding:12px 8px;border-radius:12px;border:1.5px solid;font-size:13px;font-weight:700;font-family:'Bricolage Grotesque',sans-serif;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center;gap:6px}
+.btn-share-wpp{background:rgba(37,211,102,.1);border-color:rgba(37,211,102,.35);color:#25D366}
+.btn-share-wpp:hover{background:rgba(37,211,102,.2)}
+.btn-share-link{background:rgba(255,255,255,.04);border-color:var(--border);color:var(--muted)}
+.btn-share-link:hover{border-color:var(--pink);color:var(--pink)}
+/* HINT BOTÃO */
+.btn-hint{font-size:11px;color:var(--red);text-align:center;margin-top:6px;display:none;line-height:1.4}
+</style>
 <script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body>
-<audio id="meuAudio" src="musica.mp3" loop></audio>
 <div class="particles" id="particles"></div>
 
 <div class="smileys-bg" aria-hidden="true"></div>
@@ -256,6 +269,23 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 <div class="einfo-item"><span class="einfo-icon">🔞</span><div><div class="einfo-label">Faixa etária</div><div class="einfo-val">+18 anos</div></div></div>
 <div class="einfo-item"><span class="einfo-icon">🎤</span><div><div class="einfo-label">Atrações</div><div class="einfo-val">DJ Gustavo</div></div></div>
 </div>
+</div>
+</div>
+
+<!-- LOCAL E DJ — substitua os placeholders pelas fotos reais -->
+<div class="card reveal">
+<div class="section-title">Local & Atrações</div>
+<div class="media-grid">
+  <div class="media-placeholder" id="foto-local">
+    <span class="mp-icon">📍</span>
+    <span>Foto do Local</span>
+    <span style="font-size:10px;opacity:.6">Em breve</span>
+  </div>
+  <div class="media-placeholder" id="foto-dj">
+    <span class="mp-icon">🎧</span>
+    <span>DJ Gustavo</span>
+    <span style="font-size:10px;opacity:.6">Em breve</span>
+  </div>
 </div>
 </div>
 
@@ -361,6 +391,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 </div>
 
 <button class="btn-main reveal" id="btn-pagar" onclick="irPix()" disabled>🎸 Garantir meu ingresso</button>
+<div class="btn-hint" id="btn-hint"></div>
 
 <p style="text-align:center;font-size:12px;color:var(--muted);margin-top:.75rem;margin-bottom:.5rem"> Pagamento 100% seguro via Mercado Pago</p>
 
@@ -406,23 +437,24 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 </div>
 <div id="ingressos-wrap"></div>
 <div style="background:rgba(168,85,247,.08);border:1px solid rgba(168,85,247,.25);border-radius:14px;padding:1rem 1.25rem;margin-top:.75rem;display:flex;gap:12px;align-items:flex-start">
-<span style="font-size:22px;flex-shrink:0">📸</span>
+<span style="font-size:22px;flex-shrink:0">📧</span>
 <div>
-<p style="font-size:13px;font-weight:700;color:var(--yellow);margin-bottom:3px">Salve seus ingressos agora!</p>
-<p style="font-size:12px;color:rgba(192,132,252,.65);line-height:1.5">Use o botão abaixo para salvar como PDF. Os ingressos também foram enviados para o seu email.</p>
+<p style="font-size:13px;font-weight:700;color:var(--yellow);margin-bottom:3px">Seus ingressos estão a caminho!</p>
+<p style="font-size:12px;color:rgba(192,132,252,.65);line-height:1.5">O QR Code oficial foi enviado para o seu email. Se não chegar em 5 minutos, verifique o spam.</p>
 </div>
 </div>
-<button class="btn-main" onclick="window.print()" style="margin-top:1rem">📥 Salvar / imprimir ingressos</button>
+<div class="share-row">
+<button class="btn-share btn-share-wpp" onclick="compartilharWpp()">💬 Compartilhar</button>
+<button class="btn-share btn-share-link" id="btn-copiar-link" onclick="copiarLink()">🔗 Copiar link</button>
+</div>
 <div class="suporte-bar" style="margin-top:.25rem">
-<a class="suporte-link" href="https://wa.me/5561991893159?text=Ol%C3%A1%2C+j%C3%A1+comprei+meu+ingresso+da+Ecstasy+e+preciso+de+ajuda" target="_blank">💬 Suporte pós-compra</a>
+<a class="suporte-link" href="https://wa.me/5561991893159?text=Ol%C3%A1%2C+j%C3%A1+comprei+meu+ingresso+do+%C3%8Axtase+Fest+e+preciso+de+ajuda" target="_blank">💬 Suporte pós-compra</a>
 </div>
 </div>
 </div>
 </div>
 
 <script>
-document.addEventListener('click',function(){document.getElementById('meuAudio').play()},{once:true});
-
 (function(){
 const colors=['#FF3CAC','#FFDE59','#2EE89A','#3B82F6','#7C3AED'];
 const wrap=document.getElementById('particles');
@@ -579,16 +611,21 @@ return resultado;
 }
 
 function updateBtn(){
-const ok=['nome','cpf','email','wpp'].every(c=>{
-const v=document.getElementById('inp-'+c).value.trim();
-if(!v)return false;
-if(c==='cpf')return validarCPF(v.replace(/\D/g,''));
-if(c==='email')return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
-if(c==='wpp')return v.replace(/\D/g,'').length>=10;
-if(c==='nome')return v.length>=3&&v.includes(' ');
-return true;
-});
-document.getElementById('btn-pagar').disabled=!ok;
+const checks={
+  nome:()=>{const v=document.getElementById('inp-nome').value.trim();return v.length>=3&&v.includes(' ')},
+  cpf:()=>{const v=document.getElementById('inp-cpf').value.trim();return validarCPF(v.replace(/\D/g,''))},
+  email:()=>{const v=document.getElementById('inp-email').value.trim();return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)},
+  wpp:()=>{const v=document.getElementById('inp-wpp').value.trim();return v.replace(/\D/g,'').length>=10}
+};
+const labels={nome:'nome completo',cpf:'CPF',email:'email',wpp:'WhatsApp'};
+const missing=Object.keys(checks).filter(c=>!checks[c]());
+const btn=document.getElementById('btn-pagar');
+const hint=document.getElementById('btn-hint');
+btn.disabled=missing.length>0;
+if(hint){
+  if(missing.length>0){hint.style.display='block';hint.textContent='Falta preencher: '+missing.map(c=>labels[c]).join(', ')+'.';}
+  else{hint.style.display='none';}
+}
 }
 
 function fmtCPF(el){let v=el.value.replace(/\D/g,'').slice(0,11);if(v.length>9)v=v.slice(0,3)+'.'+v.slice(3,6)+'.'+v.slice(6,9)+'-'+v.slice(9);else if(v.length>6)v=v.slice(0,3)+'.'+v.slice(3,6)+'.'+v.slice(6);else if(v.length>3)v=v.slice(0,3)+'.'+v.slice(3);el.value=v}
@@ -600,6 +637,7 @@ async function irPix(){
 const nome=document.getElementById('inp-nome').value.trim();
 const cpf=document.getElementById('inp-cpf').value.trim();
 const email=document.getElementById('inp-email').value.trim();
+const wpp=document.getElementById('inp-wpp').value.trim();
 const l=LOTES[loteAtual];const taxa=l.taxa*qty;const total=l.preco*qty+taxa;
 const cpfLimpo=cpf.replace(/\D/g,'');
 if(!['nome','cpf','email','wpp'].every(c=>validarCampo(c))){mostrarErro('Por favor, corrija os campos destacados antes de continuar.');return}
@@ -609,7 +647,7 @@ if(qty>disp){mostrarErro(`Este CPF só pode comprar mais ${disp} ingresso(s). Aj
 const btn=document.getElementById('btn-pagar');btn.disabled=true;btn.textContent='Gerando Pix... ⚡';
 document.getElementById('erro-box').style.display='none';
 try{
-const res=await fetch('/api/criar-pix',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({valor:total,nome,cpf,email,lote:l.nome,quantidade:qty})});
+const res=await fetch('/api/criar-pix',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({valor:total,nome,cpf,email,whatsapp:wpp,lote:l.nome,quantidade:qty})});
 const data=await res.json();
 if(!res.ok||!data.id)throw new Error(data.detalhe||data.error||'Falha ao criar cobrança');
 paymentId=data.id;
@@ -642,12 +680,21 @@ function copiarPix(el){navigator.clipboard.writeText(el.textContent).catch(()=>{
 function mostrarIngresso(email,nome,lote,total){
 document.getElementById('sec-pix').style.display='none';document.getElementById('sec-ok').style.display='block';setStep(3);window.scrollTo({top:0,behavior:'smooth'});
 document.getElementById('email-final').textContent=email;
-const preco=(total-lote.taxa*qty)/qty;const wrap=document.getElementById('ingressos-wrap');wrap.innerHTML='';
-for(let i=0;i<qty;i++){
-const code='#AC2026-'+Math.floor(10000+Math.random()*90000);
-const label=qty>1?`<span style="font-size:12px;color:rgba(255,255,255,.4);font-weight:400"> ${i+1}/${qty}</span>`:'';
-wrap.innerHTML+=`<div style="margin-bottom:.75rem"><div class="section-title" style="margin-bottom:.5rem">Ingresso ${qty>1?(i+1)+' de '+qty:'digital'}</div><div class="ticket-card"><div class="hole l"></div><div class="hole r"></div><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.75rem;position:relative;z-index:1"><div><p style="font-size:10px;color:rgba(255,255,255,0.35);text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px">Êxtase Fest 🇧🇷</p><p style="font-family:'Bricolage Grotesque',sans-serif;font-size:20px;font-weight:800">${lote.nome}${label}</p></div><p style="font-family:'Bricolage Grotesque',sans-serif;font-size:20px;font-weight:800;background:linear-gradient(135deg,var(--pink),var(--yellow));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">${fmt(preco)}</p></div><hr class="ticket-divider"><div style="position:relative;z-index:1"><p style="font-size:15px;font-weight:700;margin-bottom:3px;font-family:'Bricolage Grotesque',sans-serif">${nome}</p><p style="font-size:12px;color:rgba(255,255,255,0.45)">Sáb, 06 Jun 2026 • 21h30 — Brasília, DF</p><p style="font-size:10px;color:rgba(255,255,255,0.25);font-family:monospace;margin-top:5px">${code}</p></div></div></div>`;
+const preco=(total-lote.taxa*qty)/qty;
+const wrap=document.getElementById('ingressos-wrap');
+wrap.innerHTML=`<div class="ticket-card" style="margin-top:.75rem"><div class="hole l"></div><div class="hole r"></div><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.75rem;position:relative;z-index:1"><div><p style="font-size:10px;color:rgba(255,255,255,0.35);text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px">Êxtase Fest 🇧🇷</p><p style="font-family:'Bricolage Grotesque',sans-serif;font-size:20px;font-weight:800">${lote.nome} &nbsp;<span style="font-size:13px;color:rgba(255,255,255,.4);font-weight:400">${qty > 1 ? qty+' ingressos' : '1 ingresso'}</span></p></div><p style="font-family:'Bricolage Grotesque',sans-serif;font-size:20px;font-weight:800;background:linear-gradient(135deg,var(--pink),var(--yellow));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">${fmt(total)}</p></div><hr class="ticket-divider"><div style="position:relative;z-index:1"><p style="font-size:15px;font-weight:700;margin-bottom:3px;font-family:'Bricolage Grotesque',sans-serif">${nome}</p><p style="font-size:12px;color:rgba(255,255,255,0.45)">Sáb, 06 Jun 2026 • 21h30 — Brasília, DF</p><p style="font-size:11px;color:rgba(168,85,247,.6);margin-top:6px">📧 QR Code enviado para seu email</p></div></div>`;
 }
+
+function compartilharWpp(){
+const texto=encodeURIComponent('Garanti meu ingresso do Êxtase Fest! 🎧🔥\nVem também — corre antes de esgotar:\nhttps://extasefest.com.br');
+window.open('https://wa.me/?text='+texto,'_blank');
+}
+
+function copiarLink(){
+navigator.clipboard.writeText('https://extasefest.com.br').catch(()=>{});
+const btn=document.getElementById('btn-copiar-link');
+const orig=btn.textContent;btn.textContent='✓ Copiado!';btn.style.color='var(--green)';btn.style.borderColor='var(--green)';
+setTimeout(()=>{btn.textContent=orig;btn.style.color='';btn.style.borderColor=''},2500);
 }
 
 window.addEventListener('DOMContentLoaded', function() {
@@ -677,11 +724,13 @@ window.addEventListener('DOMContentLoaded', function() {
   setInterval(function(){count=Math.max(2,Math.min(12,count+(Math.random()<.5?1:-1)));var e=document.getElementById('sp-count');if(e)e.textContent=count;},4500);
 })();
 
-(function(){
+var _vagasCache={};
+function atualizarVagas(){
   fetch('/api/vagas?t='+Date.now())
     .then(function(r){return r.json();})
     .then(function(data){
       var vagas = data.vagas || {};
+      _vagasCache = vagas;
       var totais = {1:50,2:100,3:150};
       [1,2,3].forEach(function(i){
         var total = totais[i] || 100;
@@ -700,7 +749,6 @@ window.addEventListener('DOMContentLoaded', function() {
           }, 400);
         }
 
-        // Fecha o lote esgotado
         if(v === 0 && row){
           row.style.opacity = '.4';
           row.style.pointerEvents = 'none';
@@ -713,22 +761,18 @@ window.addEventListener('DOMContentLoaded', function() {
             badge.style.color = '#FF4545';
             badge.style.border = '1px solid rgba(255,69,69,.35)';
           }
-          // Se era o lote selecionado, seleciona o próximo disponível
           if(row.classList.contains('selected')){
             for(var j=1;j<=3;j++){
-              if(j!==i && vagas[j]>0){
-                selecionarLote(j);
-                break;
-              }
+              if(j!==i && vagas[j]>0){ selecionarLote(j); break; }
             }
           }
         }
       });
     })
-    .catch(function(){
-      // Fallback silencioso — não quebra o site
-    });
-})();
+    .catch(function(){});
+}
+atualizarVagas();
+setInterval(atualizarVagas, 45000);
 
 
 

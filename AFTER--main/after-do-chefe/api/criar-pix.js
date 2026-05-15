@@ -16,7 +16,7 @@ export default async function handler(req, res) {
     return res.status(500).json({ error: 'Configuração do servidor incompleta' });
   }
 
-  const { valor, nome, email, cpf, lote, quantidade } = req.body;
+  const { valor, nome, email, cpf, lote, quantidade, whatsapp } = req.body;
 
   if (!valor || !nome || !email || !cpf) {
     return res.status(400).json({ error: 'Dados incompletos' });
@@ -81,7 +81,8 @@ export default async function handler(req, res) {
           lote,
           quantidade,
           comprador_nome: nome,
-          comprador_email: email
+          comprador_email: email,
+          comprador_whatsapp: whatsapp || ''
         }
       })
     });
