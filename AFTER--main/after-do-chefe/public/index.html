@@ -216,6 +216,15 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 .media-placeholder{background:rgba(168,85,247,.04);border:1.5px dashed rgba(168,85,247,.2);border-radius:14px;aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;color:rgba(168,85,247,.4);font-weight:600;font-size:12px;text-align:center;padding:12px}
 .media-placeholder .mp-icon{font-size:28px}
 .media-placeholder img{width:100%;height:100%;object-fit:cover;border-radius:12px;display:block}
+/* GALERIA DO LOCAL */
+.galeria-scroll{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;padding-bottom:6px;margin:0 -1.25rem;padding-left:1.25rem;padding-right:1.25rem}
+.galeria-scroll::-webkit-scrollbar{height:3px}
+.galeria-scroll::-webkit-scrollbar-track{background:rgba(255,255,255,.04);border-radius:2px}
+.galeria-scroll::-webkit-scrollbar-thumb{background:rgba(168,85,247,.4);border-radius:2px}
+.galeria-foto{flex-shrink:0;width:75vw;max-width:320px;aspect-ratio:3/4;border-radius:16px;overflow:hidden;scroll-snap-align:start;border:1px solid rgba(168,85,247,.2);position:relative}
+.galeria-foto img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s}
+.galeria-foto:active img{transform:scale(1.03)}
+.galeria-dica{font-size:11px;color:rgba(168,85,247,.4);text-align:center;margin-top:8px;font-weight:600;letter-spacing:.04em}
 /* COMPARTILHAR */
 .share-row{display:flex;gap:8px;margin-top:.75rem}
 .btn-share{flex:1;padding:12px 8px;border-radius:12px;border:1.5px solid;font-size:13px;font-weight:700;font-family:'Bricolage Grotesque',sans-serif;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center;gap:6px}
@@ -272,19 +281,32 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 </div>
 </div>
 
-<!-- LOCAL E DJ — substitua os placeholders pelas fotos reais -->
+<!-- LOCAL E DJ -->
 <div class="card reveal">
-<div class="section-title">Local & Atrações</div>
-<div class="media-grid">
-  <div class="media-placeholder" id="foto-local">
-    <span class="mp-icon">📍</span>
-    <span>Foto do Local</span>
-    <span style="font-size:10px;opacity:.6">Em breve</span>
+<div class="section-title">O Espaço</div>
+<div class="galeria-scroll">
+  <div class="galeria-foto">
+    <img src="/img/local-1.jpg" alt="Espaço — bar e mezanino" loading="lazy">
   </div>
+  <div class="galeria-foto">
+    <img src="/img/local-2.jpg" alt="Espaço — palco e telões" loading="lazy">
+  </div>
+  <div class="galeria-foto">
+    <img src="/img/local-3.jpg" alt="Espaço — pista principal" loading="lazy">
+  </div>
+</div>
+<div class="galeria-dica">← deslize para ver mais →</div>
+<div class="media-grid" style="margin-top:12px">
   <div class="media-placeholder" id="foto-dj">
     <span class="mp-icon">🎧</span>
     <span>DJ Gustavo</span>
     <span style="font-size:10px;opacity:.6">Em breve</span>
+  </div>
+  <div style="background:rgba(168,85,247,.06);border:1px solid rgba(168,85,247,.15);border-radius:14px;padding:14px 12px;display:flex;flex-direction:column;justify-content:center;gap:6px">
+    <div style="font-size:10px;color:rgba(168,85,247,.5);font-weight:700;text-transform:uppercase;letter-spacing:.08em">Estilo musical</div>
+    <div style="font-size:14px;font-weight:700;color:var(--text)">Eletrofunk & House</div>
+    <div style="font-size:10px;color:rgba(168,85,247,.5);font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-top:4px">Capacidade</div>
+    <div style="font-size:14px;font-weight:700;color:var(--text)">300 pessoas</div>
   </div>
 </div>
 </div>
