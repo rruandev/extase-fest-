@@ -386,8 +386,20 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 </div>
 <div class="status-bar s-wait" id="s-wait"><div class="dot"></div> Aguardando confirmação do pagamento...</div>
 <div class="status-bar s-ok" id="s-ok"><div class="dot"></div> Pago! Ingresso sendo enviado para <strong id="email-conf" style="margin-left:4px"></strong></div>
+
+<!-- Botão gerar novo código (aparece quando expira) -->
+<div id="pix-expirado" style="display:none;margin-top:1rem;text-align:center">
+  <p style="font-size:13px;color:var(--muted);margin-bottom:.75rem">⏱ O código Pix expirou. Gere um novo ou corrija seus dados.</p>
+  <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
+    <button class="btn-main" onclick="gerarNovoPix()" style="flex:1;max-width:220px;font-size:13px;padding:12px">🔄 Gerar novo código</button>
+    <button onclick="voltarParaFormulario()" style="flex:1;max-width:180px;font-size:13px;padding:12px;background:transparent;border:1.5px solid rgba(255,255,255,.15);border-radius:14px;color:var(--muted);cursor:pointer;font-family:inherit;font-weight:600;transition:all .2s">← Corrigir dados</button>
+  </div>
+</div>
 </div>
 <p style="font-size:12px;color:var(--muted);text-align:center;margin-top:.5rem">Após a confirmação o ingresso é enviado automaticamente para o seu email.</p>
+<div style="display:flex;gap:8px;justify-content:center;margin-top:.5rem">
+  <button onclick="voltarParaFormulario()" style="background:transparent;border:none;color:var(--muted);font-size:12px;cursor:pointer;font-family:inherit;text-decoration:underline;padding:4px">← Voltar e corrigir dados</button>
+</div>
 <div class="suporte-bar" style="margin-top:.25rem">
 <a class="suporte-link" href="https://wa.me/5561991893159?text=Ol%C3%A1%2C+preciso+de+ajuda+com+o+pagamento+da+Ecstasy" target="_blank">💬 Precisou de ajuda? Fale conosco</a>
 </div>
@@ -606,7 +618,7 @@ if(!['nome','cpf','email','wpp'].every(c=>validarCampo(c))){mostrarErro('Por fav
 const disp=disponiveisCPF(cpfLimpo);
 if(disp<=0){mostrarErro(`Este CPF já atingiu o limite de ${LIMITE_CPF} ingressos por pessoa.`);return}
 if(qty>disp){mostrarErro(`Este CPF só pode comprar mais ${disp} ingresso(s). Ajuste a quantidade.`);qty=disp;document.getElementById('qty-num').textContent=qty;atualizarResumo();return}
-const btn=document.getElementById('btn-pagar');btn.disabled=true;btn.textContent='Gerando Pix... ⚡';
+const btn=document.getElementById('btn-pagar');btn.disabled=true;btn.innerHTML='<span style="display:inline-block;width:14px;height:14px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:6px"></span>Gerando Pix...';if(!document.getElementById('spin-style')){const st=document.createElement('style');st.id='spin-style';st.textContent='@keyframes spin{to{transform:rotate(360deg)}}';document.head.appendChild(st);}
 document.getElementById('erro-box').style.display='none';
 try{
 const res=await fetch('/api/criar-pix',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({valor:total,nome,cpf,email,lote:l.nome,quantidade:qty})});
@@ -627,7 +639,24 @@ btn.disabled=false;btn.textContent='Gerar Pix para pagar';
 }
 }
 
-function startTimer(){let s=300;clearInterval(timerInt);timerInt=setInterval(()=>{s--;const el=document.getElementById('timer');if(!el)return;el.textContent=Math.floor(s/60).toString().padStart(2,'0')+':'+(s%60).toString().padStart(2,'0');if(s<=60)el.classList.add('timer-urgente');if(s<=0){clearInterval(timerInt);el.textContent='expirado'}},1000)}
+function startTimer(){let s=300;clearInterval(timerInt);timerInt=setInterval(()=>{s--;const el=document.getElementById('timer');if(!el)return;el.textContent=Math.floor(s/60).toString().padStart(2,'0')+':'+(s%60).toString().padStart(2,'0');if(s<=60)el.classList.add('timer-urgente');if(s<=0){clearInterval(timerInt);clearInterval(pollInt);el.textContent='00:00';document.getElementById('pix-expirado').style.display='block';document.getElementById('s-wait').style.display='none';}},1000)}
+
+function voltarParaFormulario(){
+  clearInterval(timerInt);clearInterval(pollInt);
+  document.getElementById('sec-pix').style.display='none';
+  document.getElementById('sec-main').style.display='block';
+  const btn=document.getElementById('btn-pagar');
+  btn.disabled=false;btn.innerHTML='🎸 Garantir meu ingresso';
+  setStep(1);window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function gerarNovoPix(){
+  document.getElementById('pix-expirado').style.display='none';
+  document.getElementById('s-wait').style.display='flex';
+  document.getElementById('qr-img').src='';
+  document.getElementById('pix-code').textContent='';
+  irPix();
+}
 
 function startPolling(email,nome,lote,total,cpfLimpo){
 clearInterval(pollInt);
@@ -732,12 +761,8 @@ window.addEventListener('DOMContentLoaded', function() {
 
 
 
-var _exitShown=false;
-document.addEventListener('mouseleave',function(e){if(e.clientY<5&&!_exitShown){_exitShown=true;document.getElementById('exit-overlay').classList.add('show');}});
-var _lastScroll=0;
-window.addEventListener('scroll',function(){var cur=window.scrollY;if(_lastScroll-cur>80&&cur<200&&!_exitShown){_exitShown=true;document.getElementById('exit-overlay').classList.add('show');}  _lastScroll=cur;},{passive:true});
-function fecharExit(){document.getElementById('exit-overlay').classList.remove('show');}
-document.getElementById('exit-overlay').addEventListener('click',function(e){if(e.target===e.currentTarget)fecharExit();});
+// Exit intent removido — reduz acúmulo de elementos de urgência (H8)
+function fecharExit(){var el=document.getElementById('exit-overlay');if(el)el.classList.remove('show');}
 
 function toggleFaq(el){var item=el.closest('.faq-item');var isOpen=item.classList.contains('open');document.querySelectorAll('.faq-item.open').forEach(function(i){i.classList.remove('open');});if(!isOpen)item.classList.add('open');}
 </script>
