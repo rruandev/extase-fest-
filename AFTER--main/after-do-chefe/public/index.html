@@ -302,7 +302,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 </div>
 </div>
 
-<div class="card reveal">
+<div class="card reveal" id="sec-dados">
 <div class="section-title">Seus dados</div>
 <div class="field">
 <label>Nome completo</label>
@@ -559,7 +559,7 @@ function getComprasCPF(cpf){return(JSON.parse(localStorage.getItem('ecstasy_comp
 function registrarComprasCPF(cpf,n){const d=JSON.parse(localStorage.getItem('ecstasy_compras')||'{}');d[cpf]=(d[cpf]||0)+n;localStorage.setItem('ecstasy_compras',JSON.stringify(d))}
 function disponiveisCPF(cpf){return Math.max(0,LIMITE_CPF-getComprasCPF(cpf))}
 
-function selecionarLote(n){loteAtual=n;[1,2,3].forEach(i=>{const el=document.getElementById('lote-'+i);if(el)el.classList.toggle('selected',i===n)});atualizarResumo()}
+function selecionarLote(n){loteAtual=n;[1,2,3].forEach(i=>{const el=document.getElementById('lote-'+i);if(el)el.classList.toggle('selected',i===n)});atualizarResumo();setTimeout(()=>{const sec=document.getElementById('sec-dados');if(sec)sec.scrollIntoView({behavior:'smooth',block:'start'})},150);}
 
 function changeQty(d){qty=Math.max(1,Math.min(qty+d,3));document.getElementById('qty-num').textContent=qty;atualizarResumo()}
 
