@@ -1,9 +1,8 @@
 ﻿// api/webhook-pix.js
 import { Redis } from '@upstash/redis';
-const kv = new Redis({ url: process.env.UPSTASH_REDIS_REST_URL, token: process.env.UPSTASH_REDIS_REST_TOKEN });
+import { TOTAL_VAGAS, LOTE_NOMES } from './_lib.js';
 
-const TOTAL_VAGAS = { 1: 50, 2: 100, 3: 150 };
-const LOTE_NOMES  = { '1º Lote': 1, '2º Lote': 2, '3º Lote': 3 };
+const kv = new Redis({ url: process.env.UPSTASH_REDIS_REST_URL, token: process.env.UPSTASH_REDIS_REST_TOKEN });
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -40,12 +39,12 @@ export default async function handler(req, res) {
     }
 
     const { comprador_nome, comprador_email, lote, quantidade } = payment.metadata || {};
+    const qtd = parseInt(quantidade) || 1;
 
     // ── Decrementa vagas no KV ──
     try {
       const loteNum = LOTE_NOMES[lote];
       if (loteNum) {
-        const qtd = parseInt(quantidade) || 1;
         const vagasKey = `vagas:${loteNum}`;
         const vagasAtual = await kv.get(vagasKey);
         const vagasAtuais = vagasAtual === null ? TOTAL_VAGAS[loteNum] : parseInt(vagasAtual);
@@ -63,7 +62,6 @@ export default async function handler(req, res) {
     }
 
     const valor = payment.transaction_amount;
-    const qtd = parseInt(quantidade) || 1;
     const precoPorIngresso = valor / qtd;
 
     // Gera um código único por ingresso

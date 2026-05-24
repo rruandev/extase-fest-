@@ -1,8 +1,8 @@
 // api/vagas.js — retorna vagas disponíveis por lote
 import { Redis } from '@upstash/redis';
-const kv = new Redis({ url: process.env.UPSTASH_REDIS_REST_URL, token: process.env.UPSTASH_REDIS_REST_TOKEN });
+import { TOTAL_VAGAS } from './_lib.js';
 
-const TOTAL_VAGAS = { 1: 50, 2: 100, 3: 150 };
+const kv = new Redis({ url: process.env.UPSTASH_REDIS_REST_URL, token: process.env.UPSTASH_REDIS_REST_TOKEN });
 
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
