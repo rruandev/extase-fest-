@@ -293,7 +293,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 <div class="section-title">Escolha o lote</div>
 <div class="lote-row selected" id="lote-1" onclick="selecionarLote(1)">
 <div><div class="lote-nome">1º Lote <span class="badge badge-ok">disponível</span></div><div class="lote-vagas" id="vagas-1">60 vagas restantes</div><div style="font-size:11px;color:#C084FC;margin-top:4px;font-weight:600">&#x23F3; Expira em: <span id="lote-timer">--:--:--</span></div><div class="lote-progress"><div class="lote-progress-bar" id="bar-1" style="width:100%"></div></div></div>
-<div class="lote-preco">R$ 10</div>
+<div class="lote-preco">R$ 15</div>
 </div>
 <div class="lote-row" id="lote-2" onclick="selecionarLote(2)">
 <div><div class="lote-nome">2º Lote <span class="badge badge-ok">disponível</span></div><div class="lote-vagas" id="vagas-2">100 vagas restantes</div><div style="font-size:11px;color:#C084FC;margin-top:4px;font-weight:600">&#x23F3; Expira em: <span id="lote-timer-2">--:--:--</span></div><div class="lote-progress"><div class="lote-progress-bar" id="bar-2" style="width:100%"></div></div></div>
@@ -302,6 +302,10 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 <div class="lote-row" id="lote-3" onclick="selecionarLote(3)">
 <div><div class="lote-nome">3º Lote <span class="badge badge-ok">disponível</span></div><div class="lote-vagas" id="vagas-3">140 vagas restantes</div><div style="font-size:11px;color:#C084FC;margin-top:4px;font-weight:600">&#x23F3; Expira em: <span id="lote-timer-3">--:--:--</span></div><div class="lote-progress"><div class="lote-progress-bar" id="bar-3" style="width:100%"></div></div></div>
 <div class="lote-preco">R$ 20</div>
+</div>
+<div class="lote-row" style="opacity:.7;cursor:not-allowed;pointer-events:none;border-style:dashed">
+<div><div class="lote-nome">🚪 Lote Na Porta <span class="badge" style="background:rgba(255,222,89,.1);color:#FFDE59;border:1px solid rgba(255,222,89,.3)">somente no evento</span></div><div style="font-size:12px;color:var(--muted);margin-top:3px">Disponível apenas na entrada do evento</div><div style="font-size:11px;color:rgba(240,240,255,.3);margin-top:4px">Não disponível para compra online</div></div>
+<div class="lote-preco" style="font-size:14px;color:var(--muted)">Na hora</div>
 </div>
 
 </div>
@@ -519,7 +523,7 @@ updateCountdown();setInterval(updateCountdown,1000);
 
 // Countdown expiracao do 1o lote (01/06/2026 meia-noite, Brasilia)
 (function(){
-  var expiry=new Date("2026-06-01T00:00:00-03:00");
+  var expiry=new Date("2026-06-09T18:00:00-03:00");
   function updateLoteTimer(){
     var now=new Date(),diff=expiry-now;
     var el=document.getElementById("lote-timer");
@@ -607,7 +611,7 @@ updateCountdown();setInterval(updateCountdown,1000);
   });
 })();
 
-const LOTES={1:{nome:'1º Lote',preco:10,taxa:1},2:{nome:'2º Lote',preco:15,taxa:1},3:{nome:'3º Lote',preco:20,taxa:1}};
+const LOTES={1:{nome:'1º Lote',preco:15,taxa:1},2:{nome:'2º Lote',preco:15,taxa:1},3:{nome:'3º Lote',preco:20,taxa:1}};
 let loteAtual=1,qty=1,timerInt,paymentId,pollInt,paginaCarregada=false;
 window.addEventListener('load',()=>{setTimeout(()=>{paginaCarregada=true},300);});
 const LIMITE_CPF=10;
@@ -750,8 +754,8 @@ window.addEventListener('DOMContentLoaded', function() {
     <div style="font-size:40px;margin-bottom:.75rem">&#x26A0;&#xFE0F;</div>
     <h2>Espera! Não vai perder isso...</h2>
     <p>Os ingressos do <strong style="color:#C084FC">1º Lote</strong> estão acabando. Garante o seu antes que o preço suba!</p>
-    <div class="exit-discount">Menor preço disponível:<br><strong>R$ 10,00</strong> &mdash; 1º Lote</div>
-    <button class="exit-btn-yes" onclick="fecharExit();document.getElementById('lote-1').click();document.getElementById('btn-pagar').scrollIntoView({behavior:'smooth'})">&#x1F39F; Quero garantir por R$ 10!</button>
+    <div class="exit-discount">Menor preço disponível:<br><strong>R$ 15,00</strong> &mdash; 1º Lote</div>
+    <button class="exit-btn-yes" onclick="fecharExit();document.getElementById('lote-1').click();document.getElementById('btn-pagar').scrollIntoView({behavior:'smooth'})">&#x1F39F; Quero garantir por R$ 15!</button>
     <button class="exit-btn-no" onclick="fecharExit()">Não, prefiro pagar mais caro depois</button>
   </div>
 </div>
