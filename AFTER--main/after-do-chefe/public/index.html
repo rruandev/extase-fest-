@@ -292,7 +292,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 <div class="social-proof" id="social-proof-bar"><div class="social-proof-dot"></div><span>🔥 Ingressos do 1º Lote acabando — garanta o seu agora</span></div>
 <div class="section-title">Escolha o lote</div>
 <div class="lote-row selected" id="lote-1" onclick="selecionarLote(1)">
-<div><div class="lote-nome">1º Lote <span class="badge badge-ok">disponível</span></div><div class="lote-vagas" id="vagas-1">60 vagas restantes</div><div style="font-size:11px;color:#C084FC;margin-top:4px;font-weight:600">&#x23F3; Expira em: <span id="lote-timer">--:--:--</span></div><div class="lote-progress"><div class="lote-progress-bar" id="bar-1" style="width:100%"></div></div></div>
+<div><div class="lote-nome">1º Lote <span class="badge badge-ok">disponível</span></div><div class="lote-vagas" id="vagas-1" style="display:none"></div><div style="font-size:11px;color:#C084FC;margin-top:4px;font-weight:600">&#x23F3; Expira em: <span id="lote-timer">--:--:--</span></div><div class="lote-progress"><div class="lote-progress-bar" id="bar-1" style="width:100%"></div></div></div>
 <div class="lote-preco">R$ 15</div>
 </div>
 <div class="lote-row" style="opacity:.7;cursor:not-allowed;pointer-events:none;border-style:dashed">
@@ -741,7 +741,7 @@ window.addEventListener('DOMContentLoaded', function() {
         var row = document.getElementById('lote-'+i);
         var pct = (v/total*100).toFixed(0);
 
-        if(txt) txt.textContent = v > 0 ? v+' vagas restantes' : 'ESGOTADO';
+        if(txt) txt.textContent = v <= 0 ? 'ESGOTADO' : (pct <= 30 ? 'esgotando...' : '');
         if(bar){
           setTimeout(function(){
             bar.style.width = pct+'%';
