@@ -511,7 +511,7 @@ updateCountdown();setInterval(updateCountdown,1000);
 
 // Countdown expiracao do 1o lote (01/06/2026 meia-noite, Brasilia)
 (function(){
-  var expiry=new Date("2026-06-09T18:00:00-03:00");
+  var expiry=new Date("2026-06-06T18:00:00-03:00");
   function updateLoteTimer(){
     var now=new Date(),diff=expiry-now;
     var el=document.getElementById("lote-timer");
