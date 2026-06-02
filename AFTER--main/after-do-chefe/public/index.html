@@ -295,17 +295,9 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 <div><div class="lote-nome">1º Lote <span class="badge badge-ok">disponível</span></div><div class="lote-vagas" id="vagas-1">60 vagas restantes</div><div style="font-size:11px;color:#C084FC;margin-top:4px;font-weight:600">&#x23F3; Expira em: <span id="lote-timer">--:--:--</span></div><div class="lote-progress"><div class="lote-progress-bar" id="bar-1" style="width:100%"></div></div></div>
 <div class="lote-preco">R$ 15</div>
 </div>
-<div class="lote-row" id="lote-2" onclick="selecionarLote(2)">
-<div><div class="lote-nome">2º Lote <span class="badge badge-ok">disponível</span></div><div class="lote-vagas" id="vagas-2">100 vagas restantes</div><div style="font-size:11px;color:#C084FC;margin-top:4px;font-weight:600">&#x23F3; Expira em: <span id="lote-timer-2">--:--:--</span></div><div class="lote-progress"><div class="lote-progress-bar" id="bar-2" style="width:100%"></div></div></div>
-<div class="lote-preco">R$ 15</div>
-</div>
-<div class="lote-row" id="lote-3" onclick="selecionarLote(3)">
-<div><div class="lote-nome">3º Lote <span class="badge badge-ok">disponível</span></div><div class="lote-vagas" id="vagas-3">140 vagas restantes</div><div style="font-size:11px;color:#C084FC;margin-top:4px;font-weight:600">&#x23F3; Expira em: <span id="lote-timer-3">--:--:--</span></div><div class="lote-progress"><div class="lote-progress-bar" id="bar-3" style="width:100%"></div></div></div>
-<div class="lote-preco">R$ 20</div>
-</div>
 <div class="lote-row" style="opacity:.7;cursor:not-allowed;pointer-events:none;border-style:dashed">
 <div><div class="lote-nome">🚪 Lote Na Porta <span class="badge" style="background:rgba(255,222,89,.1);color:#FFDE59;border:1px solid rgba(255,222,89,.3)">somente no evento</span></div><div style="font-size:12px;color:var(--muted);margin-top:3px">Disponível apenas na entrada do evento</div><div style="font-size:11px;color:rgba(240,240,255,.3);margin-top:4px">Não disponível para compra online</div></div>
-<div class="lote-preco" style="font-size:14px;color:var(--muted)">Na hora</div>
+<div class="lote-preco" style="color:var(--muted)">R$ 20</div>
 </div>
 
 </div>
@@ -541,29 +533,6 @@ updateCountdown();setInterval(updateCountdown,1000);
   updateLoteTimer();setInterval(updateLoteTimer,1000);
 })();
 
-(function(){
-  var configs=[{n:2,expiry:new Date("2026-06-04T00:00:00-03:00"),timerId:"lote-timer-2"},{n:3,expiry:new Date("2026-06-06T00:00:00-03:00"),timerId:"lote-timer-3"}];
-  configs.forEach(function(cfg){
-    function tick(){
-      var diff=cfg.expiry-new Date();
-      var el=document.getElementById(cfg.timerId);
-      var loteRow=document.getElementById("lote-"+cfg.n);
-      var badge=loteRow?loteRow.querySelector(".badge-ok"):null;
-      if(diff<=0){
-        if(el)el.textContent="ENCERRADO";
-        if(loteRow){loteRow.style.opacity=".4";loteRow.style.pointerEvents="none";loteRow.style.cursor="not-allowed";}
-        if(badge){badge.textContent="ENCERRADO";badge.className="badge";badge.style.background="rgba(255,69,69,.12)";badge.style.color="#FF4545";badge.style.border="1px solid rgba(255,69,69,.35)";}
-        return;
-      }
-      var d=Math.floor(diff/86400000),h=Math.floor((diff%86400000)/3600000),m=Math.floor((diff%3600000)/60000),s=Math.floor((diff%60000)/1000);
-      if(el){
-        el.textContent=(d>0?d+"d ":"")+String(h).padStart(2,"0")+":"+String(m).padStart(2,"0")+":"+String(s).padStart(2,"0");
-        if(diff<3600000)el.style.color="#ff6b6b";
-      }
-    }
-    tick();setInterval(tick,1000);
-  });
-})();
 
 (function spawnSmileys(){
   const container=document.querySelector('.smileys-bg');
