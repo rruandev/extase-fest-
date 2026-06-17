@@ -49,23 +49,23 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 .nhv-particles span:nth-child(10){width:3px;height:3px;background:#00C853;left:90%;top:55%;animation-duration:5.5s;animation-delay:3.5s;opacity:.7}
 @keyframes nhv-float{0%{transform:translateY(0) rotate(0deg);opacity:.8}50%{opacity:.4}100%{transform:translateY(-120px) rotate(360deg);opacity:0}}
 .nhv-content{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;z-index:2}
-.nhv-date-badge{font-size:10px;font-weight:700;letter-spacing:.15em;color:rgba(255,223,0,.7);background:rgba(0,200,83,.08);border:1px solid rgba(0,200,83,.2);border-radius:20px;padding:5px 14px;text-transform:uppercase}
+.nhv-date-badge{font-size:10px;font-weight:700;letter-spacing:.15em;color:#FFDF00;background:rgba(0,200,83,.08);border:1px solid rgba(0,200,83,.2);border-radius:20px;padding:5px 14px;text-transform:uppercase}
 .nhv-title{display:flex;flex-direction:column;align-items:center;line-height:1;gap:0}
 .nhv-t1{font-family:'Bricolage Grotesque',sans-serif;font-size:clamp(52px,14vw,80px);font-weight:800;letter-spacing:-2px;background:linear-gradient(180deg,#fff 0%,#FFDF00 50%,#00C853 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;filter:drop-shadow(0 0 30px rgba(0,200,83,.4));animation:nhv-pulse 3s ease-in-out infinite}
 .nhv-t2{font-family:'Bricolage Grotesque',sans-serif;font-size:clamp(26px,7vw,40px);font-weight:800;letter-spacing:.2em;background:linear-gradient(90deg,#1457C9,#00C853,#FFDF00,#00C853,#1457C9);background-size:200%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:nhv-shimmer 3s linear infinite}
 @keyframes nhv-pulse{0%,100%{filter:drop-shadow(0 0 20px rgba(0,200,83,.3))}50%{filter:drop-shadow(0 0 40px rgba(0,200,83,.7))}}
 @keyframes nhv-shimmer{0%{background-position:0%}100%{background-position:200%}}
 .nhv-line{width:80px;height:2px;background:linear-gradient(90deg,transparent,#00C853,transparent);margin:4px 0}
-.nhv-icons{font-size:11px;font-weight:600;letter-spacing:.1em;color:rgba(0,200,83,.6)}
+.nhv-icons{font-size:11px;font-weight:700;letter-spacing:.1em;color:rgba(0,230,118,.92)}
 .nhv-bottom-glow{position:absolute;bottom:0;left:0;right:0;height:60px;background:linear-gradient(to top,#02140B,transparent)}
 .hero-content{padding:.75rem 1rem 1.25rem;text-align:center;background:linear-gradient(to bottom, rgba(5,18,11,0.0) 0%, rgba(5,18,11,0.9) 100%);margin-top:-6px}
 .hero-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:600;color:var(--yellow);margin-bottom:1rem}
 .hero-badge-new{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,rgba(0,200,83,.12),rgba(20,87,201,.08));border:1px solid rgba(0,200,83,.35);border-radius:20px;padding:7px 18px;font-size:11px;font-weight:700;color:#00C853;letter-spacing:.12em;text-transform:uppercase;margin-bottom:1.1rem;box-shadow:0 0 16px rgba(0,200,83,.1)}
 .event-info-new{display:flex;flex-direction:column;gap:8px;width:100%;padding:0 .25rem .5rem}
-.einfo-item{display:flex;align-items:center;gap:12px;background:rgba(0,200,83,.04);border:1px solid rgba(0,200,83,.12);border-left:3px solid rgba(0,200,83,.5);border-radius:10px;padding:10px 14px;transition:all .2s}
+.einfo-item{display:flex;align-items:center;gap:12px;text-align:left;background:rgba(0,200,83,.04);border:1px solid rgba(0,200,83,.12);border-left:3px solid rgba(0,200,83,.5);border-radius:10px;padding:10px 14px;transition:all .2s}
 .einfo-item:hover{background:rgba(0,200,83,.08);border-left-color:#00C853}
 .einfo-icon{font-size:18px;min-width:24px;text-align:center}
-.einfo-label{font-size:10px;font-weight:600;color:rgba(0,200,83,.55);text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px}
+.einfo-label{font-size:10px;font-weight:700;color:#FFDF00;text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px}
 .einfo-val{font-size:14px;font-weight:700;color:var(--text)}
 .hero h1{font-family:'Bricolage Grotesque',sans-serif;font-size:clamp(32px,9vw,44px);font-weight:800;line-height:1.05;margin-bottom:.5rem;background:linear-gradient(135deg,#ffffff 0%,var(--yellow) 40%,var(--pink) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:-2px;text-shadow:none}
 .hero-sub{font-size:14px;color:var(--muted);margin-bottom:1.25rem}
@@ -154,7 +154,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 .btn-outline:hover{border-color:var(--pink);color:var(--pink)}
 .erro-box{background:rgba(255,60,60,.1);border:1px solid rgba(255,60,60,.3);border-radius:12px;padding:12px 16px;font-size:13px;color:#ff6b6b;margin-bottom:.75rem;display:none;line-height:1.5}
 .politica-card{background:rgba(0,200,83,.03);border:1px solid rgba(0,200,83,.15);border-left:3px solid rgba(0,200,83,.4);border-radius:16px;padding:1rem 1.25rem;margin-bottom:1rem}
-.politica-card summary{font-size:13px;font-weight:600;color:rgba(0,200,83,.7);cursor:pointer;list-style:none;display:flex;align-items:center;gap:6px}
+.politica-card summary{font-size:13px;font-weight:600;color:rgba(0,230,118,.92);cursor:pointer;list-style:none;display:flex;align-items:center;gap:6px}
 .politica-card summary::after{content:'›';margin-left:auto;font-size:18px;transition:transform .2s}
 .politica-card[open] summary::after{transform:rotate(90deg)}
 .politica-card p{font-size:12px;color:rgba(240,240,255,.35);line-height:1.6;margin-top:10px}
@@ -221,7 +221,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 .faq-item{border-bottom:1px solid rgba(255,255,255,.06);padding:14px 0}
 .faq-item:last-child{border-bottom:none;padding-bottom:0}
 .faq-q{font-size:14px;font-weight:700;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:8px;color:rgba(240,240,255,.9);user-select:none}
-.faq-q::after{content:'+';font-size:20px;font-weight:400;color:rgba(0,200,83,.6);flex-shrink:0;transition:transform .2s}
+.faq-q::after{content:'+';font-size:20px;font-weight:400;color:rgba(0,230,118,.92);flex-shrink:0;transition:transform .2s}
 .faq-item.open .faq-q::after{transform:rotate(45deg)}
 .faq-a{font-size:13px;color:rgba(240,240,255,.45);line-height:1.6;max-height:0;overflow:hidden;transition:max-height .3s ease,padding .3s ease}
 .faq-item.open .faq-a{max-height:200px;padding-top:8px}
