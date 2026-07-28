@@ -1,4 +1,5 @@
 import { Redis } from '@upstash/redis';
+import { REGRAS_PEDIDO } from '../config/evento.js';
 
 const kv = new Redis({
   url: process.env.UPSTASH_REDIS_REST_URL,
@@ -33,7 +34,7 @@ export default async function handler(req, res) {
   const evento = partes[2] || '—';
   const data = partes[3] || '—';
 
-  if (!codigoIngresso.startsWith('#AC2026-')) {
+  if (!codigoIngresso.startsWith(REGRAS_PEDIDO.prefixoIngresso)) {
     return res.status(200).json({
       valido: false,
       erro: 'QR Code inválido — não pertence a este evento'
