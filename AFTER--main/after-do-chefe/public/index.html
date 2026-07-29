@@ -41,6 +41,21 @@ h1,h2,h3,h4{font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spac
 body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:9;opacity:.05;
 background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
 
+/* mini-cowboys flutuando pelo fundo, tipo poeira de rodeio */
+.cowboys-bg{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:0}
+.mini-cowboy{position:absolute;top:0;opacity:0;animation:cowboy-drift linear infinite}
+.mini-cowboy svg{display:block}
+@keyframes cowboy-drift{
+  0%{transform:translate(0,-60px) rotate(-4deg);opacity:0}
+  8%{opacity:.22}
+  20%{transform:translate(34px,12vh) rotate(6deg)}
+  38%{transform:translate(-28px,30vh) rotate(-6deg)}
+  56%{transform:translate(30px,50vh) rotate(6deg)}
+  74%{transform:translate(-24px,70vh) rotate(-5deg)}
+  90%{transform:translate(18px,92vh) rotate(4deg);opacity:.14}
+  100%{transform:translate(-10px,112vh) rotate(-3deg);opacity:0}
+}
+
 .page{max-width:520px;margin:0 auto;padding:0 1rem 6.5rem;position:relative;z-index:1}
 .sec{margin-bottom:2.5rem}
 .sec-label{font-size:11px;font-weight:700;color:var(--latao);text-transform:uppercase;letter-spacing:.18em;margin-bottom:.6rem}
@@ -893,6 +908,39 @@ document.querySelectorAll('.reveal').forEach(function(e){ obs.observe(e); });
 
 carregarEstoque();
 setInterval(carregarEstoque, 45000);
+
+/* mini-cowboys flutuando pelo fundo */
+(function spawnCowboys(){
+  var container=document.createElement('div');
+  container.className='cowboys-bg';
+  container.setAttribute('aria-hidden','true');
+  document.body.insertBefore(container, document.body.firstChild);
+
+  var svgCowboy='<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" fill="currentColor">'+
+    '<ellipse cx="50" cy="30" rx="24" ry="6"/>'+
+    '<path d="M36,30 Q36,12 50,12 Q64,12 64,30 Z"/>'+
+    '<circle cx="50" cy="36" r="7"/>'+
+    '<path d="M40,44 L60,44 L66,68 L34,68 Z"/>'+
+    '<path d="M42,68 L32,92 L40,92 L47,70 Z"/>'+
+    '<path d="M58,68 L68,92 L60,92 L53,70 Z"/>'+
+  '</svg>';
+
+  var configs=[
+    {size:24,dur:32,delay:0,left:6,color:'#B08D57'},
+    {size:32,dur:40,delay:7,left:20,color:'#8F857A'},
+    {size:18,dur:28,delay:14,left:36,color:'#B08D57'},
+    {size:28,dur:36,delay:3,left:54,color:'#C9A876'},
+    {size:20,dur:31,delay:18,left:70,color:'#8F857A'},
+    {size:26,dur:38,delay:10,left:86,color:'#B08D57'},
+  ];
+  configs.forEach(function(c){
+    var wrap=document.createElement('div');
+    wrap.className='mini-cowboy';
+    wrap.innerHTML=svgCowboy;
+    wrap.style.cssText='left:'+c.left+'%;width:'+c.size+'px;height:'+c.size+'px;color:'+c.color+';animation-duration:'+c.dur+'s;animation-delay:'+c.delay+'s;';
+    container.appendChild(wrap);
+  });
+})();
 </script>
 
 </body>
