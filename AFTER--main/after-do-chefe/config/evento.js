@@ -14,9 +14,9 @@ export const EVENTO = {
   cidade: 'Sobradinho',
   estado: 'DF',
   local: 'Sobradinho, DF',
-  dataISO: process.env.EVENT_DATE || '2026-08-07T21:00:00-03:00',
+  dataISO: process.env.EVENT_DATE || '2026-08-08T21:00:00-03:00',
   instagram: '@poeira',
-  whatsappSuporte: process.env.WHATSAPP_NUMBER || '5561999999999',
+  whatsappSuporte: process.env.WHATSAPP_NUMBER || '5561991893159',
   produzidoPor: 'LANÇAR',
 };
 
