@@ -67,6 +67,26 @@ background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/sv
 background:radial-gradient(circle,rgba(176,141,87,.20) 0%,rgba(176,141,87,.06) 40%,transparent 70%);
 filter:blur(20px);pointer-events:none}
 .hero-inner{position:relative;z-index:1}
+
+/* cowboy empinando o cavalo */
+.rodeio{width:200px;max-width:56%;height:auto;margin:0 auto .5rem;display:block;color:var(--latao)}
+.rodeio .r-corpo{animation:r-empina 2.8s ease-in-out infinite;transform-box:view-box;transform-origin:96px 262px}
+.rodeio .r-rabo{animation:r-rabo 1.9s ease-in-out infinite;transform-box:view-box;transform-origin:78px 176px}
+.rodeio .r-pata{animation:r-pata 1.4s ease-in-out infinite;transform-box:view-box;transform-origin:196px 96px}
+.rodeio .r-laco{animation:r-laco 1.4s ease-in-out infinite;transform-box:view-box;transform-origin:120px 66px}
+.rodeio .r-poeira circle{animation:r-poeira 2.2s ease-out infinite}
+.rodeio .r-poeira circle:nth-child(2){animation-delay:.5s}
+.rodeio .r-poeira circle:nth-child(3){animation-delay:1s}
+.rodeio .r-poeira circle:nth-child(4){animation-delay:1.5s}
+@keyframes r-empina{0%,100%{transform:rotate(0deg)}45%{transform:rotate(-7deg)}}
+@keyframes r-rabo{0%,100%{transform:rotate(-13deg)}50%{transform:rotate(13deg)}}
+@keyframes r-pata{0%,100%{transform:rotate(-8deg)}50%{transform:rotate(12deg)}}
+@keyframes r-laco{0%,100%{transform:rotate(-5deg)}50%{transform:rotate(6deg)}}
+@keyframes r-poeira{0%{opacity:0;transform:translate(0,0) scale(.5)}25%{opacity:.55}100%{opacity:0;transform:translate(-26px,-16px) scale(1.9)}}
+@media(prefers-reduced-motion:reduce){
+  .rodeio .r-corpo,.rodeio .r-rabo,.rodeio .r-pata,.rodeio .r-laco,.rodeio .r-poeira circle{animation:none}
+}
+
 .hero-logo{width:190px;max-width:62%;height:auto;margin:0 auto .25rem;display:block}
 .hero-wordmark{font-family:'Oswald',sans-serif;font-size:clamp(64px,20vw,104px);font-weight:700;letter-spacing:-.045em;line-height:.85;
 background:linear-gradient(175deg,#EDE6DA 5%,var(--latao-claro) 45%,var(--latao) 100%);
@@ -272,6 +292,31 @@ text-decoration:none;border:1px solid var(--borda);border-radius:2px;padding:9px
   <header class="hero">
     <div class="hero-luz"></div>
     <div class="hero-inner">
+      <svg class="rodeio" viewBox="0 0 320 300" fill="none" stroke="currentColor" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <g class="r-poeira" stroke="none" fill="currentColor">
+          <circle cx="88" cy="272" r="5"/><circle cx="104" cy="276" r="4"/><circle cx="72" cy="274" r="4"/><circle cx="118" cy="272" r="3"/>
+        </g>
+        <g class="r-corpo">
+          <g class="r-rabo"><path d="M78,176 C56,188 40,210 34,242 C31,258 38,268 47,261"/></g>
+          <path d="M78,268 C74,228 70,196 80,176 C70,150 79,114 116,94 C146,79 176,77 196,71 C206,49 219,31 236,19 C246,12 253,14 251,24 C249,32 241,37 233,41"/>
+          <path d="M236,19 L242,6 L247,21"/>
+          <path d="M96,176 C93,212 91,244 93,268"/>
+          <path d="M206,67 L213,54 M216,57 L223,44 M226,47 L232,35" stroke-width="7"/>
+          <path d="M156,94 C152,86 150,78 150,72 M150,74 C159,69 166,63 169,58 M156,94 C167,99 177,104 182,109"/>
+          <g class="r-laco"><path d="M130,72 C112,62 100,52 96,40" stroke-width="7"/></g>
+          <circle cx="149" cy="66" r="7" fill="currentColor" stroke="none"/>
+          <ellipse cx="149" cy="61" rx="12" ry="3.4" fill="currentColor" stroke="none"/>
+          <path d="M142,61 Q149,51 156,61" stroke-width="6"/>
+          <circle cx="84" cy="269" r="6" fill="currentColor" stroke="none"/>
+          <circle cx="95" cy="269" r="6" fill="currentColor" stroke="none"/>
+          <g class="r-pata">
+            <path d="M192,92 C207,79 220,66 230,58"/>
+            <path d="M189,98 C199,87 209,77 215,73"/>
+            <circle cx="230" cy="58" r="6" fill="currentColor" stroke="none"/>
+            <circle cx="215" cy="73" r="6" fill="currentColor" stroke="none"/>
+          </g>
+        </g>
+      </svg>
       <img src="/marca/poeira-logo-vertical.svg" alt="POEIRA" class="hero-logo" id="hero-logo" onerror="this.style.display='none';document.getElementById('hero-wordmark').style.display='block'">
       <h1 class="hero-wordmark" id="hero-wordmark" style="display:none">POEIRA</h1>
       <p class="hero-sub">Sertanejo raiz e piseiro.<br>Sexta. Sobradinho. Poeira até o joelho.</p>
