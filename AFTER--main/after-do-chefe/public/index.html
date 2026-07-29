@@ -127,12 +127,13 @@ background:radial-gradient(circle,rgba(176,141,87,.18),rgba(176,141,87,.04));bor
 
 /* LOUNGE */
 .lounge{background:var(--superficie);border:1px solid rgba(176,141,87,.28);border-radius:14px;overflow:hidden}
-.lounge-visual{height:170px;position:relative;background:
+.lounge-visual{height:200px;position:relative;background:
 radial-gradient(ellipse 70% 90% at 50% 110%,rgba(176,141,87,.30) 0%,transparent 65%),
 radial-gradient(ellipse 50% 60% at 20% 20%,rgba(176,141,87,.10) 0%,transparent 60%),#151210;
-display:flex;align-items:center;justify-content:center}
+display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.6rem}
 .lounge-visual::after{content:'';position:absolute;left:0;right:0;bottom:0;height:60px;background:linear-gradient(to top,var(--superficie),transparent)}
-.lounge-marca{font-family:'Oswald',sans-serif;font-size:44px;font-weight:700;letter-spacing:.1em;color:rgba(176,141,87,.32);text-transform:uppercase}
+.lounge-icon{width:52px;height:auto;opacity:.6;position:relative;z-index:1}
+.lounge-marca{font-family:'Oswald',sans-serif;font-size:38px;font-weight:700;letter-spacing:.1em;color:rgba(201,168,118,.55);text-transform:uppercase;position:relative;z-index:1}
 .lounge-txt{padding:1.25rem}
 .lounge-txt p{font-size:13.5px;color:var(--texto-sec);line-height:1.65;margin-bottom:.75rem}
 .lounge-txt p:last-child{margin-bottom:0}
@@ -313,7 +314,7 @@ text-decoration:none;border:1px solid var(--borda);border-radius:2px;padding:9px
   <section class="sec reveal">
     <p class="sec-label">Lounge Cowboy</p>
     <div class="lounge">
-      <div class="lounge-visual"><span class="lounge-marca">Cowboy</span></div>
+      <div class="lounge-visual"><img src="/marca/poeira-marca-latao.svg" alt="" class="lounge-icon"><span class="lounge-marca">Cowboy</span></div>
       <div class="lounge-txt">
         <p>Deck elevado, cercado de corda de sisal, mesa alta com vista pro palco. De cima a festa é outra.</p>
         <p><strong>Bar exclusivo, sem fila.</strong> Entrada por fila separada, R$ 25 em crédito de consumo e a pulseira preta com o Rocking P.</p>
