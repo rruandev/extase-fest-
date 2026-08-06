@@ -1,0 +1,193 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ==========================================================================
+   PALETA RR LOUNGE — CSS variables
+   Mesmos valores do tailwind.config.ts. Use as variables quando precisar de
+   cor fora do Tailwind (gradiente inline, canvas, SVG, e-mail).
+   ========================================================================== */
+
+:root {
+  --fundo: #0a0a0a;
+  --grafite: #181613;
+  --dourado: #c9a24b;
+  --ouro-claro: #e7c873;
+  --creme: #f7e7b0;
+  --texto: #ede6da;
+  --texto-sec: #9a9086;
+  --borda: rgba(201, 162, 75, 0.22);
+  --erro: #c2603f;
+  --ok: #7a8b5a;
+
+  /* Altura da barra fixa de CTA no mobile — o <main> reserva esse espaço. */
+  --altura-cta: 76px;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    /* Evita que a âncora pare com o título grudado no topo. */
+    scroll-padding-top: 84px;
+  }
+
+  body {
+    @apply bg-fundo font-body text-texto antialiased;
+    /* Um leve halo dourado no topo dá profundidade sem custar frame nenhum. */
+    background-image: radial-gradient(
+      120% 80% at 50% -10%,
+      rgba(201, 162, 75, 0.13) 0%,
+      transparent 60%
+    );
+    background-attachment: fixed;
+  }
+
+  h1,
+  h2,
+  h3 {
+    @apply font-title uppercase;
+  }
+
+  /* Foco visível e dourado em tudo que é navegável por teclado. */
+  :focus-visible {
+    outline: 2px solid var(--ouro-claro);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  ::selection {
+    background: var(--dourado);
+    color: #0a0a0a;
+  }
+}
+
+@layer components {
+  /* Texto com preenchimento em gradiente de ouro. */
+  .texto-ouro {
+    background: linear-gradient(135deg, #c9a24b 0%, #e7c873 45%, #c9a24b 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Filete dourado que separa seções. */
+  .filete {
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      var(--dourado) 30%,
+      var(--ouro-claro) 50%,
+      var(--dourado) 70%,
+      transparent
+    );
+  }
+
+  .card {
+    @apply rounded-2xl border border-borda bg-grafite/70 backdrop-blur-sm;
+  }
+
+  /* Botão principal — micro-interação dourada no hover. */
+  .btn-ouro {
+    @apply relative overflow-hidden rounded-full bg-ouro-linear px-7 py-3.5 font-title
+           text-sm uppercase tracking-[0.14em] text-fundo transition-all duration-300
+           hover:brightness-110 active:scale-[.98] disabled:cursor-not-allowed
+           disabled:opacity-40 disabled:hover:brightness-100;
+    box-shadow: 0 0 0 rgba(201, 162, 75, 0);
+  }
+
+  .btn-ouro:hover:not(:disabled) {
+    box-shadow: 0 6px 28px -8px rgba(201, 162, 75, 0.65);
+  }
+
+  /* Varredura de brilho que cruza o botão no hover. */
+  .btn-ouro::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    transform: translateX(-120%);
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.45), transparent);
+    transition: transform 0.7s ease;
+  }
+
+  .btn-ouro:hover:not(:disabled)::after {
+    transform: translateX(120%);
+  }
+
+  .btn-contorno {
+    @apply rounded-full border border-dourado/50 px-6 py-3 font-title text-xs uppercase
+           tracking-[0.14em] text-dourado-claro transition-colors duration-300
+           hover:border-dourado hover:bg-dourado/10;
+  }
+
+  /* Campo de formulário. */
+  .campo {
+    @apply w-full rounded-xl border border-borda bg-fundo/60 px-4 py-3 text-[15px]
+           text-texto placeholder:text-texto-secundario/70 transition-colors
+           focus:border-dourado focus:outline-none;
+  }
+
+  .campo-ok {
+    @apply border-dourado/70;
+  }
+
+  .campo-erro {
+    border-color: var(--erro);
+  }
+
+  .rotulo-secao {
+    @apply mb-3 font-serif text-xs uppercase tracking-[0.3em] text-dourado;
+  }
+}
+
+@layer utilities {
+  /* Grão sutil por cima de tudo — dá textura sem pesar. */
+  .textura-grao::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* Aplicada pelo componente Revelar quando a seção entra na viewport. */
+  .revelar {
+    opacity: 0;
+    transform: translateY(22px);
+    transition:
+      opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .revelar-visivel {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ==========================================================================
+   ACESSIBILIDADE — prefers-reduced-motion
+   Quem pediu menos movimento não recebe nenhuma animação decorativa. O 3D é
+   desligado no próprio componente (BackgroundFX), aqui zeramos o resto.
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .revelar {
+    opacity: 1;
+    transform: none;
+  }
+}
